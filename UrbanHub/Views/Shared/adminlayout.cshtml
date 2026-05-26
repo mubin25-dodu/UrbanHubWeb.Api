@@ -1,0 +1,116 @@
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - UrbanHub Admin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/UrbanHub.styles.css" asp-append-version="true" />
+</head>
+<style>
+.hover-shadow {
+transition: all 0.3s ease;
+}
+
+.hover-shadow:hover {
+box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.15) !important;
+}
+</style>
+<body style="overflow-x: hidden;">
+    <div class="d-flex" style="height: 100vh;">
+        <!-- Sidebar -->
+        <nav class="border-end p-3 d-flex flex-column"
+             style="width: 260px; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); overflow-y: auto;">
+            <div class="mb-4 pb-3 border-bottom">
+                <a href="/Admin/Home" class="text-dark text-decoration-none d-flex align-items-center gap-2 fw-bold">
+                    <img src="~/assets/img/logo.png" alt="UrbanHub Logo"
+                         style="width: 36px; height: 36px; border-radius: 8px; object-fit: cover;" />
+                    <span style="font-size: 1rem;">UrbanHub</span>
+                </a>
+            </div>
+
+            <ul class="nav flex-column gap-2 flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark hover-shadow " asp-action="Home" asp-controller="Admin" style="transition: all 0.3s;">
+                        <i class="fas fa-chart-line me-2" style="color: #0F6DF0;"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark hover-shadow " asp-action="Users" asp-controller="AdminUserManagement" style="transition: all 0.3s;">
+                        <i class="fas fa-users me-2" style="color: #0F6DF0;"></i>
+                        Users
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark hover-shadow " asp-action="Transactions" asp-controller="AdminTransactions" style="transition: all 0.3s;">
+                        <i class="fas fa-money-bill-wave me-2" style="color: #0F6DF0;"></i>
+                        Transactions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark hover-shadow " asp-action="Logs" asp-controller="AdminLogs" style="transition: all 0.3s;">
+                        <i class="fas fa-history me-2" style="color: #0F6DF0;"></i>
+                        Logs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark hover-shadow " style="transition: all 0.3s;">
+                        <i class="fas fa-parking me-2" style="color: #0F6DF0;"></i>
+                        Parking Spaces
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark hover-shadow " style="transition: all 0.3s;">
+                        <i class="fas fa-calendar-check me-2" style="color: #0F6DF0;"></i>
+                        Bookings
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link text-dark hover-shadow " style="transition: all 0.3s;">
+                        <i class="fas fa-bell me-2" style="color: #0F6DF0;"></i>
+                        Notifications
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark hover-shadow " style="transition: all 0.3s;">
+                        <i class="fas fa-cog me-2" style="color: #0F6DF0;"></i>
+                        Settings
+                    </a>
+                </li>
+            </ul>
+
+            <div class="pt-3 border-top mt-auto">
+                <a asp-action="logout" asp-controller="login_regisration"
+                   class="btn w-100 d-flex align-items-center justify-content-center gap-2"
+                   style="background: linear-gradient(135deg, #0F6DF0 0%, #0051c3 100%); color: white;"
+                   onclick="return confirm('Are you sure you want to Logout?')">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div style="margin-left: 0; flex: 1; display: flex; flex-direction: column; overflow-y: auto;">
+            <main role="main" class="p-4" style="flex: 1;">
+                @RenderBody()
+            </main>
+
+            <footer class="border-top py-3 mt-auto"
+                    style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+                <div class="container-fluid">
+                    <small class="text-muted">&copy; 2026 - UrbanHub Admin Panel. All rights reserved.</small>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+

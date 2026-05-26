@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Login";
+	Layout = "_LayoutUrbanHub";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+  
+</head>
+
+<body>
+<div class="bg-white d-flex align-items-center justify-content-center w-100 vh-100 ">
+    <!-- card -->
+    <div class="shadow flex-row d-flex align-items-center justify-content-evenly rounded-5 position-relative" id="card_login">
+        <!-- left of the card -->
+        <form id="RegistrationForm" method="post">
+            <div class="m-5 p-5 flex-column gap-1" id="left_login"> 
+                <h2>Create Account</h2>
+                <p class="text-primary">We will send you a verification email</p>
+                <label for="fullname" class="form-label">Full Name</label>
+                <input name="name" type="text" class="form-control" id="fullname" placeholder="Enter full name">
+                <span id="SName" class="text-danger d-block"></span>
+
+                <label for="username" class="form-label">Email</label>
+                <input name="email" type="email" class="form-control"  placeholder="Enter email">
+                <span id="SEmail" class="text-danger d-block"></span>
+                <div class="d-grid gap-2 pt-3">
+                    <button type="button" name="btn" value="reg_btn" id="RegBtn" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- right of the card -->
+       
+        <div class="m-5 p-5 flex-column gap-1" id="registration"> 
+            <h2>Welcome back</h2> 
+            <form id="LoginForm" method="post">
+                <h5 class="text-primary">Enter your login details</h5>
+                <label for="username" class="form-label">Email</label>
+                <input name="Email" type="text" class="form-control" id="username" placeholder="Enter email">
+                <span id="SpanEmail" class="text-danger d-block"></span>
+
+                <label for="password" class="form-label">Password</label>
+                <input name="Password" type="password" class="form-control" id="password" placeholder="Enter password">
+                <span id="SpanPass" class="text-danger d-block"></span>
+                <input type="checkbox" /> Remember me <br />
+                <a href="#" class="text-decoration-none text-danger">Forget password?</a>
+                <div class="d-grid gap-2 pt-3">
+                    <button type="button" name="btn" id="LoginBtn" value="login" class="btn btn-primary">
+                        Login
+                    </button>
+                </div>
+            </form>
+        
+
+            <!-- the hovering card -->
+            <div class="position-absolute h-100 top-0 w-50 hovercard " id="hovercard"> 
+                <img src="assets/img/UrbanHub.png" alt="Alternate Text" />
+                <p class ="text-white text-center" id="question">Don't have an account?</p>
+                <button type="button" class="btn btn-light mx-auto d-block " id="togglebtn">Sign Up</button>
+            </div>
+
+        </div>
+            
+    </div>
+</div>
+<script type="module" src="~/js/login.js"></script>
+</body>
+</html>
+@section Scripts{
+    @Html.Partial("_ValidationScriptsPartial")
+}

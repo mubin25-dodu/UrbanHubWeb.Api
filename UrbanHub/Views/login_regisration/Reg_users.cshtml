@@ -1,0 +1,96 @@
+﻿@model UrbanHub.Entities.User
+@{
+    ViewBag.Title = "Registration";
+    Layout = "_LayoutParkIN";
+}
+
+<body>
+
+<div class="d-flex justify-content-center align-items-center vh-100 mt-5">
+   
+		<div class="d-flex flex-column  p-5 rounded-4 shadow vw-100">
+			<partial name="alart" />
+        <h1>Welcome to <span class="text-primary">UrbanHub</span></h1>
+        <h5>Enter your details to get started</h5>
+        <form method="post" action="/Registration">
+            <div class="d-flex gap-5">
+
+                <div class="d-flex flex-column gap-3 mt-4" style="width: 50%;">
+                    <div class="form-group">
+                        <label asp-for="Name">Username <span class="text-danger">*</span></label>
+                        <input asp-for="Name" value="@ViewBag.Name" class="form-control" id="username" placeholder="Username">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email">Email <span class="text-danger">*</span></label>
+                        <input asp-for="Email" class="form-control" id="email" value="@ViewBag.email" readonly placeholder="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password">Password <span class="text-danger">*</span></label>
+                        <input asp-for="Password" class="form-control" id="password"  type="password" placeholder="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password <span class="text-danger">*</span></label>
+                        <input name="cpass" class="form-control" id="confirm_password" type="password" placeholder="Confirm Password">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Phone">Phone <span class="text-danger">*</span></label>
+                            <input value="@ViewBag.Phone" asp-for="Phone" class="form-control" id="Phone" placeholder="Phone">
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address">Address</label>
+                            <input value="@ViewBag.Address" asp-for="Address" class="form-control" id="Address" placeholder="Address">
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3" disabled id="submitbtn">Register</button>
+                </div>
+
+
+                <div class="d-flex flex-column gap-3 mt-4 p-3" style="width: 50%; max-height: 500px;">
+                    <h3 class="text-primary position-relative sticky-lg-top ">Terms and Conditions</h3>
+                    <div class="border-bottom mb-3 p-3 text-justify"
+                         style="overflow-y: auto; scrollbar-width: thin; scrollbar-color: #96b8f7 transparent;">
+                        <p>
+                            Welcome to UrbanHub! These terms and conditions outline the rules and regulations for
+                            the use of UrbanHub's Website, located at UrbanHub.com.
+                        </p>
+                        <p>
+                            By accessing this website we assume you accept these terms and conditions. Do not
+                            continue to use UrbanHub if you do not agree to take all of the terms and conditions
+                            stated on this page.
+                        </p>
+                        <p>
+                            The following terminology applies to these Terms and Conditions, Privacy Statement and
+                            Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the
+                            person log on this website and compliant to the Company’s terms and conditions. "The
+                            Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties",
+                            or "Us", refers to both the Client and ourselves. All terms refer to the offer,
+                            acceptance and consideration of payment necessary to undertake the process of our
+                            assistance to the Client in the most appropriate manner for the express purpose of
+                            meeting the Client’s needs in respect of provision of the Company’s stated services, in
+                            accordance with and subject to, prevailing law of Netherlands. Any use of the above
+                            terminology or other words in the singular, plural, capitalization and/or he/she or
+                            they, are taken as interchangeable and therefore as referring to same.
+                        </p>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="terms" name="terms">
+                        <label name="terms" class="form-check-label" for="terms" id="terms">
+                            I agree to the Terms and Conditions <span class="text-danger">*</span>
+                        </label>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script src="~/js/registration.js"></script>
+@section Scripts{
+    @Html.Partial("_ValidationScriptsPartial")
+}

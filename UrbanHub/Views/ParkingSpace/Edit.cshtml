@@ -1,0 +1,310 @@
+﻿@model UrbanHub.ViewModels.ParkingSpaceEditVM
+
+@{
+    ViewData["Title"] = "Edit Parking";
+        Layout = "_LayoutParkIN";
+
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet" />
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<link rel="stylesheet"
+      href="~/css/page/ParkingSpace.css" />
+
+<div class="page-wrapper">
+
+    <div class="top-actions">
+
+        <a href="/ParkingSpace/Create"
+           class="back-btn">
+
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="page-header">
+
+        <h1 class="page-title">
+            Edit Parking Space
+        </h1>
+
+        <p class="page-subtitle">
+            Update your parking information.
+        </p>
+
+    </div>
+
+    <div class="listing-card">
+
+        <div class="card-body-custom">
+
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success rounded-4 mb-4">
+                    @TempData["success"]
+                </div>
+            }
+
+            <form asp-action="Edit"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                @Html.AntiForgeryToken()
+
+                <input asp-for="ID" type="hidden" />
+
+                <div asp-validation-summary="All"
+                     class="text-danger mb-4"></div>
+
+                <div class="mb-4">
+
+                    <label asp-for="Address"
+                           class="form-label">
+                        Address
+                    </label>
+
+                    <input asp-for="Address"
+                           class="form-control" />
+
+                </div>
+
+                <input asp-for="Latitude"
+                       id="latitude"
+                       type="hidden" />
+
+                <input asp-for="Longitude"
+                       id="longitude"
+                       type="hidden" />
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Parking Location
+                    </label>
+
+                    <div id="map"></div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-4">
+
+                        <label asp-for="RentPerHour"
+                               class="form-label">
+                            Rent Per Hour
+                        </label>
+
+                        <input asp-for="RentPerHour"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+
+                        <label asp-for="VehicleType"
+                               class="form-label">
+                            Vehicle Type
+                        </label>
+
+                        <select asp-for="VehicleType"
+                                class="form-select">
+
+                            <option value="Car">Car</option>
+                            <option value="Motorcycle">Motorcycle</option>
+                            <option value="Bicycle">Bicycle</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- AVAILABLE SCHEDULE -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Available Schedule
+                    </label>
+
+                    <div class="row g-3">
+
+                        <!-- DAY -->
+
+                        <div class="col-md-4">
+
+                            <select id="day"
+                                    class="form-select">
+
+                                <option>Select Day</option>
+                                <option>Monday</option>
+                                <option>Tuesday</option>
+                                <option>Wednesday</option>
+                                <option>Thursday</option>
+                                <option>Friday</option>
+                                <option>Saturday</option>
+                                <option>Sunday</option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- START TIME -->
+
+                        <div class="col-md-4">
+
+                            <input type="time"
+                                   id="startTime"
+                                   class="form-control" />
+
+                        </div>
+
+                        <!-- END TIME -->
+
+                        <div class="col-md-4">
+
+                            <input type="time"
+                                   id="endTime"
+                                   class="form-control" />
+
+                        </div>
+
+                    </div>
+
+                    <!-- ADD BUTTON -->
+
+                    <button type="button"
+                            class="btn btn-primary mt-3"
+                            onclick="addSchedule()">
+
+                        Add Schedule
+
+                    </button>
+
+                    <!-- ERROR -->
+
+                    <div id="scheduleError"
+                         class="text-danger mt-2"></div>
+
+                    <!-- SHOW SCHEDULE -->
+
+                    <div id="scheduleList"
+                         class="mt-3"></div>
+
+                    <!-- JSON VALUE -->
+
+                    <input asp-for="Available"
+                           type="hidden"
+                           id="Available" />
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label asp-for="Description"
+                           class="form-label">
+                        Description
+                    </label>
+
+                    <textarea asp-for="Description"
+                              class="form-control"></textarea>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Current Image
+                    </label>
+
+                    <img id="preview"
+                         src="@Model.ExistingImage"
+                         class="preview-image" />
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Change Image
+                    </label>
+
+                    <input asp-for="ImageFile"
+                           class="form-control"
+                           id="imgInp"
+                           accept="image/*" />
+
+                </div>
+
+                <div class="status-box">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h5 class="fw-bold">
+                                Active Listing
+                            </h5>
+
+                        </div>
+
+                        <label class="custom-switch">
+
+                            <input asp-for="IsAvailable" />
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="action-footer text-center">
+
+                    <button type="submit"
+                            class="btn-publish">
+
+                        Update Parking
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    @Html.Partial("_ValidationScriptsPartial")
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+
+        const parkingLatitude = @Model.Latitude;
+        const parkingLongitude = @Model.Longitude;
+
+    </script>
+
+    <script src="~/js/page/ParkingSpaceEdit.js"></script>
+}

@@ -1,0 +1,78 @@
+﻿@model WithdrawalModel
+@{
+    ViewBag.Title = "My Wallet";
+    Layout = "_LayoutParkIN";
+}
+<div class="container d-flex flex-wrap flex-row gap-3 mt-5">
+    <div class="col-3 bg-gradient d-flex flex-column shadow p-3 rounded-4">
+        <h3>Account Balance</h3>
+        <p>@Model.AccountBalance.ToString("F2")</p>
+    </div>
+	
+    <div class="col-3 bg-gradient d-flex flex-column shadow p-3 rounded-4">
+        <h3>Total Earning</h3>
+        <p>@Model.TotalEarnings.ToString("F2")</p>
+    </div>
+    <div class="col-3 bg-gradient d-flex flex-column shadow p-3 rounded-4">
+        <h3>Withdrawals</h3>
+        <p>@Model.TotalWithdrawals.ToString("F2")</p>
+    </div>
+    <div class="col-3 bg-gradient d-flex flex-column shadow p-3 rounded-4">
+        <h3>Current Withdrawal Request</h3>
+        <p>@Model.CurrentWithdrawalRequest.ToString("F2")</p>
+    </div>
+</div>
+
+<partial name="alart" />
+
+<div class="mt-5 shadow p-5 d-flex gap-5 flex-row justify-content-around flex-wrap rounded-4">
+    <form method="post" class="d-flex flex-column gap-3 col-4">
+        <h3>Enter Your Details</h3>
+        <div class="col-4" style="width:100%">
+            <label>Enter Amount</label>
+            <input asp-for="Amount" type="number" class="form-control" placeholder="0.00"/>
+            <span asp-validation-for="Amount" class="text-danger"></span>
+            <label class="d-block">Choose Payment Method</label>
+            <select asp-for="PaymentMethod" class="form-control">
+                <option value="" disabled selected>Select a method</option>
+                <option Value="Bkash">Bkash</option>
+                <option Value="Nagad">Nagad</option>
+                <option Value="Upay">Upay</option>
+            </select>
+            <input asp-for="AccountBalance" value="@Model.AccountBalance" type="hidden" />
+            <input asp-for="CurrentWithdrawalRequest" value="@Model.CurrentWithdrawalRequest" type="hidden" />
+            <input asp-for="TotalWithdrawals" value="@Model.TotalWithdrawals" type="hidden" />
+            <input asp-for="TotalEarnings" value="@Model.TotalEarnings" type="hidden" />
+            <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+            <label>Enter account number</label>
+            <input asp-for="AccountNumber" type="text" class="form-control" placeholder="Enter account number"/>
+            <span asp-validation-for="AccountNumber" class="text-danger"></span>
+            <button asp-controller="ParkInWallet" asp-action="RequestWithdrawal" type="submit" class="btn btn-primary mt-3">Request Withdrawal</button>
+        </div>
+    </form>
+    <span class="navbar-divider"><i class="fa-thin fa-grip-lines-vertical"></i></span>
+
+    <div class="col-4 rounded-4">
+        <h3>Withdrawal History</h3>
+        <ul class="overflow-auto text-decoration-none" style="max-height: 250px; scrollbar-width: none;">
+            @if (Model.Withdrawals != null && Model.Withdrawals.Any())
+            {
+                foreach (var withdrawal in Model.Withdrawals)
+                {
+                    <li class="m-1">@withdrawal.Amount.ToString("F2") BDT - <span class="
+                        @(withdrawal.Status.ToLower() == "approved" ? "text-success" : "text-danger")">
+                        @withdrawal.Status
+                    </span> - Requested At @withdrawal.Date.ToString("MM/dd/yyyy")</li>
+                }
+            }
+            else
+            {
+                <li>No withdrawal history available.</li>
+            }
+        </ul>
+    </div>
+
+</div>
+@section Scripts {
+    @Html.Partial("_ValidationScriptsPartial")
+}

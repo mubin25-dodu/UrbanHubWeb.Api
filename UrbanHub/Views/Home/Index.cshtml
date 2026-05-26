@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.title = "Home Page";
+	Layout = "_LayoutUrbanHub";
+}
+<link href="~/css/page/home.css" rel="stylesheet" />
+
+<div class=" mt-4 alert alert-dismissible alert-success">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong> <h1 class="display-4 fw-medium">Welcome to UrbanHub</h1></strong> <p class="lead fw-normal">Your one-stop destination for all things urban living.</p>
+</div>
+
+@* <div class="title px-3 py-5 my-5 shadow rounded-4">
+   
+    
+</div> *@
+
+<div class=" mt-4 d-flex flex-wrap">
+    <div class="primarybg shadow rounded-4 d-flex flex-column p-4 text-white cardshover flex-grow-1" style="max-width:700px">
+        <span class="rounded-4 p-2 label">
+           NEW UPDATE
+       </span>
+       <p class="fs-1 pt-1">
+            Parking Just Got Smarter
+       </p>
+        <p class="fs-5">Find, book, and manage parking spaces instantly in your area.</p>
+        <a asp-action="Browse" asp-controller="ParkINHome" class="rounded-4 p-2 cardbtn text-decoration-none">
+            Explore Now
+        </a>
+    </div>
+    <div> </div>
+</div>
+
+
+    <div class="py-4 fs-2 fw-medium"> City Ecosystem</div>
+    <div class="d-flex flex-wrap gap-4">
+        
+        @* parkin *@
+
+        <div class="d-flex flex-column flex-grow-0 shadow rounded-4 p-3 service_card">
+                <i class="fa-solid fa-square-parking  "></i>
+                <p class="fs-5">ParkIN</p>
+        <p class="fs-6">
+            Find available parking spaces in real time around you.
+            Book instantly and park without the hassle
+        </p>
+        <a asp-action="Browse" asp-controller="ParkINHome" class="cardlink primarycolor text-decoration-none">Find space <i class="fa-solid fa-arrow-right align-text-bottom "></i></a>
+        </div>
+
+        <div class="d-flex flex-column flex-grow-0 shadow rounded-4 p-3 service_card disable">
+            <i class="fa-solid fa-square-parking  "></i>
+            <p class="fs-5">FoodHub</p>
+            <p class="fs-6">
+            Order your favorite meals from nearby restaurants.
+            Fast delivery right to your doorstep, anytime
+            </p>
+        <p class="cardlink primarycolor">Coming soon <i class="fa-solid fa-arrow-right align-text-bottom"></i></p>
+
+        </div>
+
+        <div class="d-flex flex-column flex-grow-0 shadow rounded-4 p-3 service_card disable">
+            <i class="fa-solid fa-square-parking  "></i>
+        <p class="fs-5">StayHub</p>
+            <p class="fs-6">
+            Discover verified local
+            homes, short-term
+            rentals, and flexible living
+            spaces.
+            </p>
+        <p class="cardlink primarycolor">Coming soon <i class="fa-solid fa-arrow-right align-text-bottom"></i></p>
+
+        </div>
+    </div>

@@ -1,0 +1,122 @@
+﻿@model List<User>
+@{
+    ViewBag.Title = "User Management";
+    Layout = "adminlayout";
+}
+
+<partial name="alart" />
+
+<!-- Stats Section -->
+@if (Model != null && Model.Count > 0)
+{
+    <div class=" col-2  mb-4">
+        <div class="col-md-12">
+            <div class="card border-1 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h6 class="text-muted mb-1">Total Users Loaded</h6>
+                            <h3 class="text-primary font-weight-bold mb-0">@Model.Count</h3>
+                        </div>
+                        <div style="font-size: 2.5rem; color: #007bff; opacity: 0.3;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <form method="get" >
+    <div class="d-flex flex-column gap-2 m-2 border-1">
+        <label>Search Users</label>
+        <input name="searchTerm" type="text" id="searchInput" class="form-group col-3" placeholder="Enter user name or email...">
+        <button class="btn btn-primary col-1" id="searchBtn" asp-controller="AdminUserManagement" asp-action="Users">Search</button>
+    </div>
+    </form>
+    @if (Model == null || Model.Count == 0)
+    {
+        <div class="alert alert-info text-center" role="alert">
+            <h5 class="mb-2"><i class="fas fa-inbox"></i> No Users Found</h5>
+            <p class="mb-0">There are currently no users in the system.</p>
+        </div>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Role</th>
+                <th scope="col">Address</th>
+                <th scope="col">Status</th>
+                <th scope="col">Join Date</th>
+                <th scope="col">Verified</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var user in Model)
+            {
+                <tr style="@(user.Status?.ToLower() == "banned" ? "background-color: #fff3cd; border-left: 4px solid #ffc107;" : "")">
+                    <td>@user.Name</td>
+                    <td> <a href="mailto:@user.Email">@user.Email</a> - <a href="tel:@user.Phone">@user.Phone</a></td>
+                    <td>@user.Role</td>
+                    <td>@user.Address</td>
+                    <td>
+                        @if (user.Status.ToLower() == "banned")
+                        {
+                            <span class="badge bg-danger">@user.Status</span>
+                        }
+                        else if (user.Status.ToLower() == "active")
+                        {
+                            <span class="badge bg-success">@user.Status</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-primary">@user.Status</span>
+
+                        }
+                    </td>
+                    <td>@user.JoinDate</td>
+                    <td>
+                        @if (user.Vid != null)
+                        {
+                            <span class="badge bg-success">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">No</span>
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-primary">Profile</a>
+
+                        @if (user.Status.ToLower() == "banned")
+                        {
+                            <a asp-action="BanUnban" asp-route-id="@user.Uid" class="btn btn-sm btn-success">
+                                Unban
+                            </a>
+
+
+                        }
+                        else
+                        {
+                            <a asp-action="BanUnban" asp-route-id="@user.Uid" class="btn btn-sm btn-danger">
+                                Ban
+                            </a>
+                        }
+
+
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+
+<script src="~/js/adminUsers.js"></script>

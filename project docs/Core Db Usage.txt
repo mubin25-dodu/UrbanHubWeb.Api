@@ -1,0 +1,17 @@
+Library:
+Microsoft.EntityFrameworkCore.SqlServer 
+Microsoft.EntityFrameworkCore.Design 
+Microsoft.EntityFrameworkCore.Tools 
+Microsoft.EntityFrameworkCore 
+
+Db Path:
+"ConnectionStrings": {
+  "TestDbContext": "Data Source=DESKTOP-RNTBJ67;Initial Catalog=TestDb;TrustServerCertificate=True;Integrated Security=True;"
+} 
+
+
+Command:
+
+1. dotnet tool install --global dotnet-ef 
+
+2. Scaffold-DbContext "Name=UrbanhubDB" Microsoft.EntityFrameworkCore.SqlServer -ContextDir Data -OutputDir Data/Entities -force

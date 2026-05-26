@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Live Map";
+    Layout = "_LayoutParkIN";
+    ViewData["FullWidth"] = true;
+}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<div id="map" style="height: 500px; width: 100%;"></div>
+
+<script>
+    navigator.geolocation.getCurrentPosition(function (position) {
+
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+
+        // Initialize map
+        var map = L.map('map').setView([lat, lng], 15);
+
+        // Load OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // User marker
+        L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup("📍 You are here <div><a>dsadas</a></div>")
+            .openPopup();
+
+    });
+</script>

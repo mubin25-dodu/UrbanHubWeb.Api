@@ -1,0 +1,455 @@
+﻿@model UrbanHub.ViewModels.ParkingSpaceCreateVM
+
+@{
+    ViewData["Title"] = "Add Parking";
+    Layout = "_LayoutParkIN";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet" />
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<link rel="stylesheet"
+      href="~/css/page/ParkingSpace.css" />
+
+<div class="page-wrapper">
+
+    <!-- BACK BUTTON -->
+
+    <div class="top-actions">
+
+        <a href="javascript:history.back()"
+           class="back-btn">
+
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+
+        </a>
+
+    </div>
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <h1 class="page-title">
+            List Your Parking Space
+        </h1>
+
+        <p class="page-subtitle">
+            Add your parking spot with location, pricing and photos.
+        </p>
+
+    </div>
+
+    <!-- MAIN CARD -->
+
+    <div class="listing-card">
+
+        <div class="card-body-custom">
+
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success rounded-4 mb-4">
+                    @TempData["success"]
+                </div>
+            }
+
+            <form asp-controller="ParkingSpace"
+                  asp-action="Create"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All"
+                     class="text-danger mb-4"></div>
+
+                <!-- LOCATION -->
+
+                <span class="section-label">
+                    Requirement 01
+                </span>
+
+                <h2 class="section-title">
+                    Physical Location
+                </h2>
+
+                <div class="mb-4">
+
+                    <label asp-for="Address"
+                           class="form-label">
+                        Street Address
+                    </label>
+
+                    <input asp-for="Address"
+                           class="form-control"
+                           placeholder="House / Road / Area / City" />
+
+                    <span asp-validation-for="Address"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- HIDDEN LATITUDE LONGITUDE -->
+
+                <input asp-for="Latitude"
+                       id="latitude"
+                       type="hidden" />
+
+                <input asp-for="Longitude"
+                       id="longitude"
+                       type="hidden" />
+
+                <!-- MAP -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Select Parking Location
+                    </label>
+
+                    <div id="map"></div>
+
+                </div>
+
+                <!-- LOCATION INFO -->
+
+                <div class="location-box">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+
+                            <div class="coord-card">
+
+                                <span class="coord-title">
+                                    Latitude
+                                </span>
+
+                                <h5 id="latText">
+                                    Waiting...
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="coord-card">
+
+                                <span class="coord-title">
+                                    Longitude
+                                </span>
+
+                                <h5 id="lngText">
+                                    Waiting...
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="divider-line"></div>
+
+                <!-- PRICE -->
+
+                <span class="section-label">
+                    Requirement 02
+                </span>
+
+                <h2 class="section-title">
+                    Pricing & Vehicle Type
+                </h2>
+
+                <div class="row">
+
+                    <!-- RENT -->
+
+                    <div class="col-md-6 mb-4">
+
+                        <label asp-for="RentPerHour"
+                               class="form-label">
+                            Rent Per Hour
+                        </label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text">
+                                BDT
+                            </span>
+
+                            <input asp-for="RentPerHour"
+                                   class="form-control"
+                                   placeholder="0.00" />
+
+                        </div>
+
+                        <span asp-validation-for="RentPerHour"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- VEHICLE -->
+
+                    <div class="col-md-6 mb-4">
+
+                        <label asp-for="VehicleType"
+                               class="form-label">
+                            Vehicle Type
+                        </label>
+
+                        <select asp-for="VehicleType"
+                                class="form-select">
+
+                            <option value="">
+                                Select Vehicle
+                            </option>
+
+                            <option value="Car">
+                                Car
+                            </option>
+
+                            <option value="Motorcycle">
+                                Motorcycle
+                            </option>
+
+                            <option value="Bicycle">
+                                Bicycle
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="VehicleType"
+                              class="text-danger"></span>
+
+                    </div>
+
+                </div>
+
+                <!-- AVAILABLE -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Available Schedule
+                    </label>
+
+                    <div class="row g-3">
+
+                        <!-- DAY -->
+
+                        <div class="col-md-4">
+
+                            <select id="day"
+                                    class="form-select">
+
+                                <option>Select Day</option>
+                                <option>Monday</option>
+                                <option>Tuesday</option>
+                                <option>Wednesday</option>
+                                <option>Thursday</option>
+                                <option>Friday</option>
+                                <option>Saturday</option>
+                                <option>Sunday</option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- START TIME -->
+
+                        <div class="col-md-4">
+
+                            <input type="time"
+                                   id="startTime"
+                                   class="form-control" />
+
+                        </div>
+
+                        <!-- END TIME -->
+
+                        <div class="col-md-4">
+
+                            <input type="time"
+                                   id="endTime"
+                                   class="form-control" />
+
+                        </div>
+
+                    </div>
+
+                    <!-- ADD BUTTON -->
+
+                    <button type="button"
+                            class="btn btn-primary mt-3"
+                            onclick="addSchedule()">
+
+                        Add Schedule
+
+                    </button>
+
+                    <!-- REQUIRED ERROR -->
+
+                    <div id="scheduleError"
+                         class="text-danger mt-2"></div>
+
+                    <!-- SHOW LIST -->
+
+                    <div id="scheduleList"
+                         class="mt-3"></div>
+
+                    <!-- JSON VALUE -->
+
+                    <input type="hidden"
+                           asp-for="Available"
+                           id="Available" />
+
+                    <span asp-validation-for="Available"
+                          class="text-danger"></span>
+
+                </div>
+
+                <div class="divider-line"></div>
+
+                <!-- IMAGE -->
+
+                <span class="section-label">
+                    Requirement 03
+                </span>
+
+                <h2 class="section-title">
+                    Visuals & Description
+                </h2>
+
+                <!-- IMAGE -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Parking Image
+                    </label>
+
+                    <div class="upload-zone"
+                         onclick="document.getElementById('imgInp').click()">
+
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                        <h5 class="fw-bold mb-2">
+                            Upload Parking Photo
+                        </h5>
+
+                        <p class="text-muted">
+                            Click here to upload image
+                        </p>
+
+                        <input asp-for="ImageFile"
+                               type="file"
+                               id="imgInp"
+                               class="d-none"
+                               accept="image/*" />
+
+                        <img id="preview"
+                             src="#"
+                             class="preview-image d-none" />
+
+                    </div>
+
+                    <span asp-validation-for="ImageFile"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- DESCRIPTION -->
+
+                <div class="mb-4">
+
+                    <label asp-for="Description"
+                           class="form-label">
+                        Description
+                    </label>
+
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              placeholder="Write parking details..."></textarea>
+
+                    <span asp-validation-for="Description"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- STATUS -->
+
+                <div class="status-box">
+
+                    <div class="d-flex
+                                align-items-center
+                                justify-content-between">
+
+                        <div>
+
+                            <h5 class="fw-bold mb-1">
+                                Active Listing
+                            </h5>
+
+                            <p class="text-muted mb-0">
+                                Turn on to make your parking visible.
+                            </p>
+
+                        </div>
+
+                        <label class="custom-switch">
+
+                            <input asp-for="IsAvailable" />
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <div class="action-footer text-center">
+
+                    <button type="submit"
+                            class="btn-publish">
+
+                        Confirm Listing
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    @Html.Partial("_ValidationScriptsPartial")
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script src="~/js/page/ParkingSpace.js"></script>
+
+}

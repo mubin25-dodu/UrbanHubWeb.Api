@@ -1,0 +1,250 @@
+﻿@model ParkingDetailsModel
+@{
+	ViewBag.Title = "Details";
+	Layout = "_LayoutParkIN";
+}
+
+<partial name="alart" />
+
+
+<div class="container py-5">
+	<!-- Main Content Grid - Image Left, Details Right -->
+	<div class="row g-4 mb-5">
+		<!-- Left Column - Image -->
+		<div class="col-lg-6">
+			<div class="position-relative rounded-4 overflow-hidden shadow" style="aspect-ratio: 1/1;">
+				<img src='@(string.IsNullOrEmpty(Model.ParkingSpaces.Image) ? "/assets/img/Broken.png" : Model.ParkingSpaces.Image)'
+					 alt="Parking spot image" class="w-100 h-100" style="object-fit: cover;">
+				<!-- SECURE Badge -->
+				<span class="position-absolute top-0 start-0 m-3 badge bg-primary rounded-2">
+					<i class="fa-solid fa-lock"></i> SECURE
+				</span>
+				<!-- Rating Badge -->
+				<span class="position-absolute top-0 end-0 m-3 badge bg-white text-primary fs-6">
+					<i class="fa-solid fa-star"></i>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Right Column - Details -->
+		<div class="col-lg-6">
+			<div class="card border-0 shadow-sm rounded-4 h-100">
+				<div class="card-body p-4 p-lg-5">
+					<!-- Title & Address -->
+					<h1 class="fs-2 fw-bold mb-2 text-primary">@(Model.ParkingSpaces.Address)</h1>
+					<p class="fs-2 fw-bold mb-2 text-secondary"> <span id="RentperHour">@(Model.ParkingSpaces.RentPerHour) </span>BDT</p>
+
+					<!-- Description -->
+					<div class="mb-4">
+						<h5 class="fw-bold mb-2 text-primary">About this parking</h5>
+						<p class="text-secondary">@Model.ParkingSpaces.Description</p>
+					</div>
+
+						<div class="bg-light p-3 rounded-3 mb-4">
+							<div class="d-flex align-items-center gap-2 mb-3">
+								<i class="fa-solid fa-clock fs-5 text-primary"></i>
+								<h6 class="fw-bold mb-0 text-primary">Billing Summary</h6>
+							</div>
+							<div class="d-flex justify-content-between">
+								<span>Rent per Hour:</span>
+								<span>@(Model.ParkingSpaces.RentPerHour) BDT</span>
+							</div>
+							<div class="d-flex justify-content-between">
+								<span>Booking Duration:</span>
+								<span>@((Model.ParkingBooking.EndingTime - Model.ParkingBooking.StartingTime).TotalHours) hours</span>
+							</div>
+							<div class="d-flex justify-content-between">
+                            <span> Rent:</span>
+                            <span>@(Model.ParkingBooking.PaymentAmount) BDT</span>
+                        </div>
+							<div class="d-flex justify-content-between">
+								<span>Platform Fee:</span>
+								<span>@(Model.Platformfee?.ToString("F2") ?? "0.00") BDT</span>
+							</div>
+							
+							<div class="d-flex justify-content-between">
+								<span>Total Bill:</span>
+								<span>@(Model.TotalBill?.ToString("F2") ?? "0.00") BDT</span>
+                            </div>//will add api letter
+                        </div>
+						
+
+						<label>Enter Your Bkash Number</label>
+						<input type="text" class="form-control mb-3" placeholder="Enter your Bkash number" />
+						<label>Enter Your Pin Number</label>
+						<input type="text" class="form-control mb-3" placeholder="Enter your Pin number" />
+						<a asp-action="ProcessPayment" asp-route-id="@Model.ParkingBooking.ID" asp-controller="ParkINPayment"
+								class="btn btn-primary btn-lg w-100 rounded-3 fw-bold" id="requestBookingBtn">
+                        <i class="fa-solid fa-calendar-check me-2"></i>Pay & Book Now
+						</a>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	@*Map Section*@
+	<div class="row mb-5">
+		<div class="col-12">
+			<div class="card border-0 shadow-sm rounded-4">
+				<div class="card-body p-0" style="height: 400px; position: relative; border-radius: 1rem; overflow: hidden;">
+					<div id="map" style="width: 100%; height: 100%;"></div>
+					@*Navigation Button *@
+					@if (Model.ParkingSpaces.Location != null)
+					{
+						<a href='@($"https://www.google.com/maps/dir/?api=1&destination={Model.ParkingSpaces.Location.Y},{Model.ParkingSpaces.Location.X}")'
+						   target="_blank"
+						   class="position-absolute btn btn-primary btn-sm rounded-pill fw-bold"
+						   style="bottom: 20px; right: 20px; z-index: 1000;">
+							<i class="fa-solid fa-location-arrow me-2"></i>Go to Navigation
+						</a>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	@Html.Partial("_ValidationScriptsPartial")
+}
+<!-- Leaflet CSS & JS for free map without API key -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+<!-- Leaflet Routing Machine for real road routes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js"></script>
+<script src="~/js/ParkinDetails.js"></script>
+
+	
+<script>
+
+	// Map initialization script
+
+
+	let LocationDistance = document.getElementById('distance');
+	// Initialize map with Leaflet & OpenStreetMap (no API key required)
+	@if (Model.ParkingSpaces.Location != null)
+	{
+
+		<text>
+			const parkingLatitude = @Model.ParkingSpaces.Location.Y.ToString("F6");
+			const parkingLongitude = @Model.ParkingSpaces.Location.X.ToString("F6");
+
+			// Create map centered on parking location
+			const map = L.map('map').setView([parkingLatitude, parkingLongitude], 15);
+
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+			maxZoom: 19
+			}).addTo(map);
+
+			// Add marker for parking location with custom styling
+			const parkingMarker = L.marker([parkingLatitude, parkingLongitude], {
+			icon: L.icon({
+			iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+			shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+			iconSize: [25, 41],
+			iconAnchor: [12, 41],
+			popupAnchor: [1, -34],
+			shadowSize: [41, 41]
+			})
+			}).addTo(map)
+			.bindPopup('<b>Parking Location</b><br>@Model.ParkingSpaces.Address');
+
+			let routingControl = null;
+
+			// Get user's current location
+			if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+			function(position) {
+			const userLatitude = position.coords.latitude;
+			const userLongitude = position.coords.longitude;
+
+			// Add marker for user's location with blue icon
+			const userMarker = L.marker([userLatitude, userLongitude], {
+			icon: L.icon({
+			iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+			shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+			iconSize: [25, 41],
+			iconAnchor: [12, 41],
+			popupAnchor: [1, -34],
+			shadowSize: [41, 41]
+			})
+			}).addTo(map)
+			.bindPopup('<b>Your Location</b>');
+
+			// Clear existing routing if any
+			if (routingControl) {
+			map.removeControl(routingControl);
+			}
+
+			// Add real road routing from user to parking
+			routingControl = L.Routing.control({
+			waypoints: [
+			L.latLng(userLatitude, userLongitude),
+			L.latLng(parkingLatitude, parkingLongitude)
+			],
+			router: L.Routing.osrmv1({
+			serviceUrl: 'https://router.project-osrm.org/route/v1'
+			}),
+			routeWhileDragging: false,
+			showAlternatives: false,
+			addWaypoints: false,
+			draggableWaypoints: false,
+			fitSelectedRoutes: true,
+			lineOptions: {
+			styles: [
+			{color: '#007bff', opacity: 0.8, weight: 4}
+			]
+			},
+			show: false,
+			collapsedClassName: 'leaflet-routing-collapsed'
+			}).addTo(map);
+
+			// Listen for route found and show summary
+			routingControl.on('routesfound', function(e) {
+			const route = e.routes[0];
+			const distance = (route.summary.totalDistance / 1000).toFixed(1);
+			const time = Math.round(route.summary.totalTime / 60);
+			console.log(`Distance: ${distance} km, Time: ${time} min`);
+			// Create summary info box
+			const summaryHTML = `
+			<div style="background: white; padding: 12px 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 14px; max-width: 300px;">
+				<div style="font-weight: bold; color: #333; margin-bottom: 8px;">@Model.ParkingSpaces.Address</div>
+				<div style="color: #666;">
+					<i class="fa-solid fa-route" style="color: #007bff; margin-right: 6px;"></i>
+					${distance} km, ${time} min
+				</div>
+			</div>
+			`;
+
+			// Add summary to map top-left
+			const summaryControl = L.control({position: 'topleft'});
+			summaryControl.onAdd = function(map) {
+			const div = L.DomUtil.create('div');
+			div.innerHTML = summaryHTML;
+			L.DomEvent.disableClickPropagation(div);
+			return div;
+			};
+			summaryControl.addTo(map);
+			});
+
+			// Fit map to show both markers and route
+			const group = L.featureGroup([userMarker, parkingMarker]);
+			map.fitBounds(group.getBounds().pad(0.15));
+			},
+			function(error) {
+			console.log('Location access denied or unavailable:', error.message);
+			// Just show parking location if user denies location access
+			parkingMarker.openPopup();
+			}
+			);
+			}
+		</text>
+	}
+</script>
