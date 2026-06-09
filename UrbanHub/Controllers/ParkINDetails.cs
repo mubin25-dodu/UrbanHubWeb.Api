@@ -8,7 +8,7 @@ using UrbanHubManagement.repo;
 
 namespace UrbanHub.web.Controllers
 {
-    public class ParkINDetails (ParkinViewDetails repo) : Controller
+    public class ParkINDetails(ParkinViewDetails repo) : Controller
     {
         [HttpGet]
         public async Task<IActionResult> ViewDetails(int id)
@@ -36,10 +36,10 @@ namespace UrbanHub.web.Controllers
             if (data == null)
             {
                 return BadRequest();
-            } 
+            }
             var result = await repo.RequestBooking(data.ParkingBooking);
 
-            if (!result.Error )
+            if (!result.Error)
             {
                 TempData["Error"] = true;
                 TempData["Message"] = result.Message;
@@ -49,8 +49,8 @@ namespace UrbanHub.web.Controllers
                 TempData["Error"] = false;
                 TempData["Message"] = result.Message;
             }
-            
-            return RedirectToAction("ViewDetails" , new { id = data.ParkingBookingDTO.ParkingID });
+
+            return RedirectToAction("ViewDetails", new { id = data.ParkingBookingDTO.ParkingID });
         }
 
     }
