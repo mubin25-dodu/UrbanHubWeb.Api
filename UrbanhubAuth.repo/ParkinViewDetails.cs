@@ -13,7 +13,7 @@ namespace UrbanHubManagement.repo
 {
     public class ParkinViewDetails(UrbanHubDbContext context , IMapper mapper , UserCard card)
     {
-        public Result<ParkingDetailsModel> GetParkingSpace(int id)
+        public async Task<Result<ParkingDetailsModel>> GetParkingSpace(int id)
         {
             var result = new Result<ParkingDetailsModel>();
             try
@@ -24,28 +24,28 @@ namespace UrbanHubManagement.repo
                 {
                     result.Data = null;
                     result.Message = "Parking space not found.";
-                    result.Error = false;
+                    result.Error = true;
                     return result;
                 }
 
                 //getting booking infos
 
-                var bookings = context.ParkingBookings.Where(e => e.ParkingID == id 
-                                                                  && (e.Status == "Booked" )).ToList();
+                var bookings = await context.ParkingBookings.Where(e => e.ParkingID == id 
+                                                                        && (e.Status == "Booked" )).ToListAsync();
                 if (bookings == null || bookings.Count == 0)
                 {
                     result.Message = "No Bookings Found";
-
                 }
 
                 //the bug i always face ("list of" bookings and parking space)
 
                 result.Data = new ParkingDetailsModel()
                 {
-                    ParkingSpaces = parkingSpace ?? new ParkingSpace(),
+                    ParkingSpaces = mapper.Map<ParkingSpaceDTO>(parkingSpace),
                     ParkingBookings = bookings ?? new List<ParkingBooking>()
                 };
-                result.Error = true;
+                result.Error = false;
+                result.Message = "Details and Booking retrieved ";
 
 
             }
@@ -54,15 +54,15 @@ namespace UrbanHubManagement.repo
                 Console.WriteLine(e);
                 result.Data = null;
                 result.Message = "An error occurred while retrieving parking spaces.";
-                result.Error = false;
+                result.Error = true;
                 throw;
             }
             return result;
         }
 
-        public Result<ParkingBookingDTO> RequestBooking(ParkingBookingDTO data )
+        public async Task<Result<ParkingBooking>> RequestBooking(ParkingBooking data )
         {
-            var result = new Result<ParkingBookingDTO>();
+            var result = new Result<ParkingBooking>();
 
             try
             {
@@ -71,7 +71,7 @@ namespace UrbanHubManagement.repo
                 {
                     result.Data = null;
                     result.Message = "You cannot request a booking for your own parking space.";
-                    result.Error = false;
+                    result.Error = true;
                     return result;
                 }
                 //if already send a request
@@ -82,23 +82,23 @@ namespace UrbanHubManagement.repo
                     result.Data = null;
                     result.Message = "You have already requested a booking for this parking space. " +
                                      "Cancel it first or wait for owner's response.";
-                    result.Error = false;
+                    result.Error = true;
                     return result;
                 }
 
                 //if the time slot is already booked in backend check... 
                 //infrontend checking is not enough maybe another user is looking for this same spot same time 
                 // faster internet owala winns  
-                var existingBookings = context.ParkingBookings
+                var existingBookings =await context.ParkingBookings
                     .Where(b => b.ParkingID == data.ParkingID
                                 && b.Status == "Booked"
                                 && b.StartingTime < data.EndingTime
                                 && b.EndingTime > data.StartingTime)
-                    .ToList();
+                    .ToListAsync();
                 if (existingBookings.Count > 0)
                 {
                     result.Data = data;
-                    result.Error = false;
+                    result.Error = true;
                     result.Message = "This time slot conflicts with an existing booking.";
                     return result;
                 }
@@ -123,7 +123,7 @@ namespace UrbanHubManagement.repo
                 {
                     result.Data = null;
                     result.Message = "Slot Not available";
-                    result.Error = false;
+                    result.Error = true;
                     return result;
                 }
 
@@ -138,14 +138,14 @@ namespace UrbanHubManagement.repo
                 save.EndingTime = data.EndingTime;
                 save.Status = "Pending";
                 save.RenterID = card.UserId;
-                save.PaymentAmount= decimal.Parse((hours * (double)data.RentPerHour).ToString());
+                save.PaymentAmount= decimal.Parse((hours * (double)data.Parking.RentPerHour).ToString());
                 save.PaymentStatus = "Pending";
                 save.Date = DateTime.Now;
                 context.ParkingBookings.Add(save);
                 context.SaveChanges();
                 
                 result.Data = null;
-                result.Error = true;
+                result.Error = false;
                 result.Message = "Booking Request Send Successfully";
 
             }
@@ -153,7 +153,7 @@ namespace UrbanHubManagement.repo
             {
                 result.Data = data;
                 result.Message = "something went wrong";
-                result.Error = false;
+                result.Error = true;
                 throw;
             }
             return result;

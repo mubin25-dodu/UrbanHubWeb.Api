@@ -30,6 +30,7 @@ builder.Services.AddScoped<UserCard>();
 builder.Services.AddScoped<ParkinHome>();
 builder.Services.AddScoped<AdminUserManagement>();
 builder.Services.AddScoped<PlatformServices>();
+builder.Services.AddScoped<ParkinViewDetails>();
 builder.Services.AddAuthentication("UrbanAuth").AddCookie("UrbanAuth",
     opt =>
     {

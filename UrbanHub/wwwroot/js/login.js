@@ -53,10 +53,10 @@ if (loginBtn) { loginBtn.addEventListener("click", function (event) {
                 document.getElementById("SpanPass").innerHTML = data.errors.Password.errors[0].errorMessage;
             }
         }
-        else if (data.status && data.data!=null && (data.data.role == "Owner" || data.data.role == "User") ){
+        else if (!data.error && data.data != null && (data.data.role == "Owner" || data.data.role == "User")) {
             window.location.href="Home"
         }
-        else if (data.status && data.data.role == "Admin") {
+        else if (!data.error && data.data.role == "Admin") {
             window.location.href="Admin/Home"
         }
         else {
@@ -88,8 +88,7 @@ if (RegBtn) {
                 //console.log(data);
                 document.getElementById("SEmail").innerHTML = null;
                 document.getElementById("SName").innerHTML = null;
-                notif.style.backgroundColor = "";
-                if (data.errors && data.status!=false) {
+                if (data.errors && data.Error !=true) {
                     //console.log(data.errors);
                     if (data.errors.Email) {
                         document.getElementById("SEmail").innerHTML = data.errors.Email.errors[0].errorMessage;

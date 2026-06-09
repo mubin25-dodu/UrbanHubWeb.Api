@@ -59,42 +59,43 @@
 								ParkIN
 							</a>
 						</li>
-
-						<li class="nav-item">
-							<a class="nav-link fw-600 text-dark nav-hover-effect @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ParkINBookings" && ViewContext.RouteData.Values["Action"]?.ToString() == "MyBookings" ? "active" : "")"
-							   asp-controller="ParkINBookings" asp-action="MyBookings">
-								My bookings
-							</a>
-						</li>
-						@if (User.IsInRole("Owner"))
-						{
-							<li class="nav-item">
-								<a class="nav-link fw-600 text-dark nav-hover-effect @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ParkINMySpace" && ViewContext.RouteData.Values["Action"]?.ToString() == "MySpace" ? "active" : "")"
-								   asp-controller="ParkINMySpace" asp-action="MySpace">
-									My Space
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link fw-600 text-dark nav-hover-effect @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ParkINManageBookings" && ViewContext.RouteData.Values["Action"]?.ToString() == "Bookings" ? "active" : "")"
-								   asp-controller="ParkINManageBookings" asp-action="Bookings">
-									Manage Bookings
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link fw-600 text-dark nav-hover-effect @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ParkINWallet" && ViewContext.RouteData.Values["Action"]?.ToString() == "MyWallet" ? "active" : "")"
-								   asp-controller="ParkINWallet" asp-action="MyWallet">
-									My Wallet
-								</a>
-							</li>
-						}
-						<li class="nav-item">
-							<a class="nav-link fw-600 text-dark nav-hover-effect @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ParkINHome" && ViewContext.RouteData.Values["Action"]?.ToString() == "LiveMap" ? "active" : "")"
-							   asp-controller="ParkINHome" asp-action="LiveMap">
-								Map View
-							</a>
-						</li>
-					</ul>
-
+							@if (User.Identity.IsAuthenticated)
+							{
+									<li class="nav-item">
+										<a class="nav-link fw-600 text-dark nav-hover-effect @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ParkINBookings" && ViewContext.RouteData.Values["Action"]?.ToString() == "MyBookings" ? "active" : "")"
+										asp-controller="ParkINBookings" asp-action="MyBookings">
+											My bookings
+										</a>
+									</li>
+									@if (User.IsInRole("Owner"))
+									{
+										<li class="nav-item">
+											<a class="nav-link fw-600 text-dark nav-hover-effect @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ParkINMySpace" && ViewContext.RouteData.Values["Action"]?.ToString() == "MySpace" ? "active" : "")"
+											asp-controller="ParkINMySpace" asp-action="MySpace">
+												My Space
+											</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link fw-600 text-dark nav-hover-effect @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ParkINManageBookings" && ViewContext.RouteData.Values["Action"]?.ToString() == "Bookings" ? "active" : "")"
+											asp-controller="ParkINManageBookings" asp-action="Bookings">
+												Manage Bookings
+											</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link fw-600 text-dark nav-hover-effect @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ParkINWallet" && ViewContext.RouteData.Values["Action"]?.ToString() == "MyWallet" ? "active" : "")"
+											asp-controller="ParkINWallet" asp-action="MyWallet">
+												My Wallet
+											</a>
+										</li>
+									}
+									<li class="nav-item">
+										<a class="nav-link fw-600 text-dark nav-hover-effect @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ParkINHome" && ViewContext.RouteData.Values["Action"]?.ToString() == "LiveMap" ? "active" : "")"
+										asp-controller="ParkINHome" asp-action="LiveMap">
+											Map View
+										</a>
+									</li>
+								}
+							</ul>
 					<!-- Right side tools -->
 					<div class="d-flex align-items-center gap-3 ms-lg-4 mt-3 mt-lg-0 ps-lg-3 border-lg-start">
 						<!-- Notification Icon -->

@@ -152,8 +152,6 @@ namespace UrbanHubManagement.repo
             result.Error = false;
             result.Message = "User Found";
             return result;
-
-
         }
 
         public Result<UserDTO> Save(UserDTO data)

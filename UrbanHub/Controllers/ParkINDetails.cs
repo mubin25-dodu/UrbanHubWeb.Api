@@ -11,15 +11,15 @@ namespace UrbanHub.web.Controllers
     public class ParkINDetails (ParkinViewDetails repo) : Controller
     {
         [HttpGet]
-        public IActionResult ViewDetails(int id)
+        public async Task<IActionResult> ViewDetails(int id)
         {
             if (id <= 0)
             {
                 return BadRequest();
             }
 
-            var result = repo.GetParkingSpace(id);
-            if (result.Error)
+            var result = await repo.GetParkingSpace(id);
+            if (!result.Error)
             {
                 var newresult = new ParkingDetailsModel();
                 newresult.ParkingSpaces = result.Data.ParkingSpaces;
@@ -31,13 +31,13 @@ namespace UrbanHub.web.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult RequestBooking(ParkingDetailsModel data)
+        public async Task<IActionResult> RequestBooking(ParkingDetailsModel data)
         {
             if (data == null)
             {
                 return BadRequest();
             } 
-            var result = repo.RequestBooking(data.ParkingBookingDTO);
+            var result = await repo.RequestBooking(data.ParkingBooking);
 
             if (!result.Error )
             {

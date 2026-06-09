@@ -19,14 +19,14 @@ namespace UrbanHub.web.Controllers
                 page = 1;
             }
 
-            var result = await repo.GetAllParkingSpaces( page );
+            var result = await repo.GetAllParkingSpaces( page , 21);
             return View(result.Data);
         }
 
         [HttpGet("ParkIN/Nearby")]
         public async Task<IActionResult> BrowseNearby(double lat, double lng)
         {
-            var result = await repo.NearBy(5000, lat, lng);
+            var result = await repo.NearBy(5000, lat, lng ,1 ,21);
             return View("Browse", result.Data);
         }
 
@@ -38,14 +38,9 @@ namespace UrbanHub.web.Controllers
                 return RedirectToAction("Browse");
             }
 
-            var result = await repo.Search(data.SearchSpaces);
+            var result = await repo.Search(data.SearchSpaces , 1 , 21);
             return View("Browse", result.Data ?? new ParkInBrowseModel { SearchSpaces = data.SearchSpaces });
         }
-
-        //public IActionResult MapView( int id)
-        //{
-        //    return Redirect();
-        //}
 
         public IActionResult LiveMap()
         {

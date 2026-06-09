@@ -10,13 +10,13 @@ using UrbanHub.Entities;
 
 namespace UrbanHub.DTO
 {
-    public class ParkingSpaceDTO
+    public class ParkingSpaceApiDTO
     {
         public int ID { get; set; }
 
         public string Address { get; set; } = null!;
 
-        public Point Location { get; set; }
+        public string Location { get; set; }
         public decimal RentPerHour { get; set; }
         public string Available { get; set; } = null!;
         public bool IsAvailable { get; set; }

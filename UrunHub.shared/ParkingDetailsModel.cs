@@ -1,10 +1,11 @@
-﻿using UrbanHub.Entities;
+﻿using UrbanHub.DTO;
+using UrbanHub.Entities;
 
 namespace UrbanHub.shared;
 
 public class ParkingDetailsModel
 {
-    public ParkingSpace? ParkingSpaces { get; set; } 
+    public ParkingSpaceDTO? ParkingSpaces { get; set; } 
     public List<ParkingBooking>? ParkingBookings { get; set; }
     public ParkingBooking? ParkingBooking { get; set; }
     public ParkingBookingDTO ? ParkingBookingDTO { get; set; }

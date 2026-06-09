@@ -14,7 +14,6 @@ namespace UrbanHubWeb.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ParkINHome(ParkinHome repo) : ControllerBase
     {
         [HttpGet]

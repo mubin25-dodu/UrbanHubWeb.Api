@@ -33,7 +33,7 @@ namespace UrbanHubManagement.repo
                           * bookings.PaymentAmount;
                 var newdata = new ParkingDetailsModel()
                 {
-                    ParkingSpaces = bookings?.Parking,
+                    ParkingSpaces = mapper.Map<ParkingSpaceDTO>(bookings),
                     ParkingBooking = bookings,
                     Platformfee = fee,
                     TotalBill = (fee + bookings.PaymentAmount)
