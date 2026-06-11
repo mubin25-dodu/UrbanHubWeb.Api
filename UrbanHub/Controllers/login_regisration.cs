@@ -51,7 +51,7 @@ public class login_regisration(Auth repo, UrbanHubDbContext context) : Controlle
         }
 
         var userExist = repo.IsUser(data);
-        if (userExist.Error == true)
+        if (!userExist.Error)
         {
             var Claim = new List<Claim>()
             {
@@ -113,15 +113,17 @@ public class login_regisration(Auth repo, UrbanHubDbContext context) : Controlle
         ModelState.Remove("ID");
         if (!ModelState.IsValid)
         {
+
+            // logic??
         }
-        else if (data.Password != cpass)
+        if (data.Password != cpass)
         {
             ModelState.AddModelError("Password", "Passwords do not match");
         }
         else
         {
             var result = repo.Save(data);
-            if (result.Error)
+            if (!result.Error)
             {
                 return RedirectToAction("login_reg");
             }

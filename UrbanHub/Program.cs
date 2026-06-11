@@ -7,6 +7,7 @@ using UrbanHub.Entities;
 using UrbanHub.shared;
 using UrbanHubManagement.repo;
 using UrbanHub.web.custom_services;
+using UrbanHub.custom_services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(mapper));
@@ -24,6 +25,7 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
 builder.Services.AddSession();
+builder.Services.AddScoped<PasswordHash>();
 builder.Services.AddScoped<Auth>();
 builder.Services.AddScoped<ParkinHome>();
 builder.Services.AddScoped<LoginDTO>();
@@ -39,6 +41,7 @@ builder.Services.AddScoped<ParkinWallet>();
 builder.Services.AddScoped<AdminUserManagement>();
 builder.Services.AddScoped<AdminTransactions>();
 builder.Services.AddScoped<AdminLogs>();
+builder.Services.AddScoped<SendMail>();
 builder.Services.AddHttpContextAccessor();
 //testing
 // although everything is for testing for me now

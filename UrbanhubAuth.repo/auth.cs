@@ -1,16 +1,20 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Design;
+using Org.BouncyCastle.Crypto.Signers;
+using System.Security.Claims;
 using UrbanHub.custom_services;
 using UrbanHub.Data;
 using UrbanHub.DTO;
 using UrbanHub.Entities;
+using UrbanHub.shared;
+using Microsoft.AspNetCore.Identity;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UrbanHubManagement.repo
 {
-    public class Auth(UrbanHubDbContext context)
+    public class Auth(UrbanHubDbContext context , PasswordHash hash , SendMail mail)
     {
         public Result<User> IsUser(LoginDTO data)
         {
@@ -30,7 +34,8 @@ namespace UrbanHubManagement.repo
                     result.Message = "Wrong email Try again";
                     result.Error = true;
                 }
-                else if (check != null && check.Password != data.Password)
+                
+                else if (check != null && !hash.MatchHash(check.Password , data.Password))
                 {
                     result.Data = null;
                     result.Message = "Wrong password Try again";
@@ -76,12 +81,13 @@ namespace UrbanHubManagement.repo
                     var checkreg = context.Registrations.FirstOrDefault(x => x.Email != null && x.Email == data.Email);
 
                     int id = new Random().Next(1, 100000);
+                   
                     if (checkreg == null)
                     {
                         var newdata = new Registration()
                         {
                             Email = data.Email,
-                            Name = data.Name,
+                            Name = data.Name ,
                             Rid = id
                         };
                         context.Registrations.Add(newdata);
@@ -118,7 +124,7 @@ namespace UrbanHubManagement.repo
                             </body>
                             </html>";
 
-                    new SendMail().SendEmail(data.Email , "UrbanHub - Registration Confirmation", mailbody);
+                    mail.SendEmail(data.Email , "UrbanHub - Registration Confirmation", mailbody);
 
                     context.SaveChanges();
                     //mail sending
@@ -161,7 +167,7 @@ namespace UrbanHubManagement.repo
             {
                 var check = context.Registrations.Where(u => u.Email == data.Email);
                 var usercheck = context.Users.FirstOrDefault(e => e.Email == data.Email);
-                
+
                 if (usercheck != null)
                 {
                     if (usercheck.Email == data.Email)
@@ -184,7 +190,7 @@ namespace UrbanHubManagement.repo
                     {
                         Name = data.Name,
                         Email = data.Email,
-                        Password = data.Password,
+                        Password = hash.Hash(data.Password),
                         Address = data.Address,
                         Role = "User",
                         Status = "Active",

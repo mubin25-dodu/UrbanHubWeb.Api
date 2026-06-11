@@ -21,7 +21,7 @@ namespace UrbanHubManagement.repo
             {
                 page = page <= 0 ? 1 : page;
                 offset = offset <= 0 ? 21 : offset;
-                var Available = context.ParkingSpaces.Count();
+                var Available = await context.ParkingSpaces.Where(e => e.IsAvailable == true).CountAsync();
                 var parkingSpaces = await context.ParkingSpaces
                     .Where(p => p.IsAvailable == true)
                     .Skip((page - 1)* offset).Take(offset).ToListAsync();
@@ -111,7 +111,8 @@ namespace UrbanHubManagement.repo
             {
                 page = page <= 0 ? 1 : page;
                 offset = offset <= 0 ? 21 : offset;
-
+                var Available = await context.ParkingSpaces.Where(e => e.IsAvailable == true && e.VehicleType == data.Type && e.IsAvailable == true &&
+                                e.Address.Contains(data.SearchText)).CountAsync();
                 var nearby = await context.ParkingSpaces
                     .Where(c => c.VehicleType == data.Type && c.IsAvailable == true &&
                                 c.Address.Contains(data.SearchText))
@@ -158,7 +159,9 @@ namespace UrbanHubManagement.repo
                     result.Data = new ParkInBrowseModel
                     {
                         ParkingSpaces = mappedSpaces,
+                        TotalResults = Available,
                         SearchSpaces = data
+
                     };
                     result.Message = "Parking spaces retrieved successfully.";
                     result.Error = true;
@@ -169,6 +172,7 @@ namespace UrbanHubManagement.repo
                     result.Data = new ParkInBrowseModel
                     {
                         ParkingSpaces = mappedSpaces,
+                        TotalResults = Available,
                         SearchSpaces = data
                     };
                     result.Message = "Parking spaces retrieved successfully.";

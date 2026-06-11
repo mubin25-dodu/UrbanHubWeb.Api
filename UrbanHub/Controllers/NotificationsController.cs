@@ -4,12 +4,16 @@ using UrbanHubManagement.repo;
 
 namespace UrbanHub.web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class NotificationsController( Notifications repo) : Controller
     {
         [Route("api/Notification")]
         public IActionResult Notification()
         {
+            if (!User.Identity.IsAuthenticated) {
+
+                return Ok("Not a user");
+            } 
             var result = repo.GetAll();
             return Json(result);
         }
