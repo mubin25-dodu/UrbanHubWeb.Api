@@ -34,7 +34,6 @@ namespace UrbanHubManagement.repo
                     ParkingSpaces = mappedSpaces,
                     TotalResults = Available,
                     CurrentPage = page
-                    
                 };
                 result.Message = "Parking spaces retrieved successfully.";
                 result.Error = false;

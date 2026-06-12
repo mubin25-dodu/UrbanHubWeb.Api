@@ -3,6 +3,7 @@ using UrbanHub.Data;
 using UrbanHubManagement.repo;
 using UrbanHub.shared;
 using System.Text.Json.Serialization;
+using UrbanHub.custom_services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,11 +27,14 @@ builder.Services.AddAutoMapper(typeof(UrbanHub.shared.mapper));
 // Register dependencies
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<Auth>();
+builder.Services.AddScoped<PasswordHash>();
 builder.Services.AddScoped<UserCard>();
 builder.Services.AddScoped<ParkinHome>();
 builder.Services.AddScoped<AdminUserManagement>();
 builder.Services.AddScoped<PlatformServices>();
 builder.Services.AddScoped<ParkinViewDetails>();
+builder.Services.AddScoped<SendMail>();
+
 builder.Services.AddAuthentication("UrbanAuth").AddCookie("UrbanAuth",
     opt =>
     {

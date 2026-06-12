@@ -16,7 +16,8 @@ namespace UrbanHub.DTO
 
         public string Address { get; set; } = null!;
 
-        public string Location { get; set; }
+        public double lan { get; set; }
+        public double lon { get; set; }
         public decimal RentPerHour { get; set; }
         public string Available { get; set; } = null!;
         public bool IsAvailable { get; set; }
