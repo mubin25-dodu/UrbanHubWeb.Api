@@ -1,19 +1,21 @@
-﻿@model UrbanHub.Entities.User
+@model UrbanHub.Entities.User
 @{
     ViewBag.Title = "Registration";
     Layout = "_LayoutParkIN";
 }
 
+<link rel="stylesheet" href="~/css/page/registration-mobile.css" asp-append-version="true" />
+
 <body>
 
 <div class="d-flex justify-content-center align-items-center vh-100 mt-5">
    
-		<div class="d-flex flex-column  p-5 rounded-4 shadow vw-100">
+		<div class="d-flex flex-column p-5 rounded-4 shadow vw-100" id="reg_card">
 			<partial name="alart" />
         <h1>Welcome to <span class="text-primary">UrbanHub</span></h1>
         <h5>Enter your details to get started</h5>
         <form method="post" action="/Registration">
-            <div class="d-flex gap-5">
+            <div class="d-flex flex-column flex-md-row gap-5" id="reg_container">
 
                 <div class="d-flex flex-column gap-3 mt-4" style="width: 50%;">
                     <div class="form-group">

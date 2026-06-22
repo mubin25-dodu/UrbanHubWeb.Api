@@ -60,9 +60,9 @@ namespace UrbanHubManagement.repo
             return result;
         }
 
-        public async Task<Result<ParkingBooking>> RequestBooking(ParkingBooking data )
+        public async Task<Result<ParkingBookingDTO>> RequestBooking(ParkingBookingDTO data )
         {
-            var result = new Result<ParkingBooking>();
+            var result = new Result<ParkingBookingDTO>();
 
             try
             {
@@ -110,16 +110,11 @@ namespace UrbanHubManagement.repo
 
                 //not checking end date its on the user if he wants to 
                 //share his parking space for 1 day or 1 month or 1 year (and yes i'm lazy)
-                var ceckavailable = context.ParkingSpaces
-                    .AsEnumerable()
-                    .Where(b => {
-                        if (string.IsNullOrWhiteSpace(b.Available)) return false;
-                        var jsondata = JsonSerializer.Deserialize<List<AvailabeSchadule>>(b.Available);
-                        return jsondata?.Any(c => c.Day == startday &&
-                                                  c.StartTime <= starttime &&
-                                                  c.EndTime >= starttime) ?? false;
-                    });
-                if (!ceckavailable.Any())
+
+                var schedule = context.ParkingSpaces.Where(e=> e.IsAvailable== true && e.ID == data.ParkingID).ToListAsync();
+
+                var checkavailable =  JsonSerializer.Deserialize<List<AvailabeSchadule>>((await schedule)[0].Available);
+                if (!checkavailable.Any())
                 {
                     result.Data = null;
                     result.Message = "Slot Not available";
@@ -138,7 +133,7 @@ namespace UrbanHubManagement.repo
                 save.EndingTime = data.EndingTime;
                 save.Status = "Pending";
                 save.RenterID = card.UserId;
-                save.PaymentAmount= decimal.Parse((hours * (double)data.Parking.RentPerHour).ToString());
+                save.PaymentAmount= decimal.Parse((hours * (double)data.RentPerHour).ToString());
                 save.PaymentStatus = "Pending";
                 save.Date = DateTime.Now;
                 context.ParkingBookings.Add(save);

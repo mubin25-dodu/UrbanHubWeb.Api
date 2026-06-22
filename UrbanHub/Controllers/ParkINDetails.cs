@@ -37,7 +37,7 @@ namespace UrbanHub.web.Controllers
             {
                 return BadRequest();
             }
-            var result = await repo.RequestBooking(data.ParkingBooking);
+            var result = await repo.RequestBooking(data.ParkingBookingDTO);
 
             if (!result.Error)
             {

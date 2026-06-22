@@ -76,7 +76,7 @@ public class login_regisration(Auth repo, UrbanHubDbContext context) : Controlle
         ModelState.Remove("Login");
         if (!ModelState.IsValid)
         {
-            return Ok(new { HasError = false, errors = ModelState });
+            return Ok(new { HasError = true, errors = ModelState });
         }
         var register = repo.Register(data);
         return Ok(register);
@@ -140,6 +140,23 @@ public class login_regisration(Auth repo, UrbanHubDbContext context) : Controlle
         ViewBag.address = data.Address;
 
         return View();
+    }
+
+    [HttpGet("api/sendotp")]
+    public async Task<IActionResult> SendOtp(LoginDTO data )
+    {
+        ModelState.Remove("Password");
+        if (!ModelState.IsValid)
+        {
+            return Ok(new { HasError = true, errors = ModelState });
+        }
+        var result = await repo.SendOtp(data.Email);
+
+        if (result.Error)
+        {
+            return Ok( new { HasError = true , erors=result.Message});
+        }
+        return Ok(result);
     }
 
 }

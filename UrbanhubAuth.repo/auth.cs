@@ -11,6 +11,8 @@ using UrbanHub.Entities;
 using UrbanHub.shared;
 using Microsoft.AspNetCore.Identity;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using Microsoft.EntityFrameworkCore;
 
 namespace UrbanHubManagement.repo
 {
@@ -98,7 +100,7 @@ namespace UrbanHubManagement.repo
                         context.Registrations.Update(checkreg);
                     }
 
-                    var registrationLink = $"https://localhost:7019/Registration?email={data.Email}&id={id}";
+                    var registrationLink = $"https://urbanhub.mu-bin.dev/Registration?email={data.Email}&id={id}";
                     var  mailbody = $@"
                             <!DOCTYPE html>
                             <html>
@@ -215,6 +217,72 @@ namespace UrbanHubManagement.repo
             }
 
         }
+
+        public async Task<Result<string>> SendOtp(string data) {
+
+            var result = new Result<string>();
+            try
+            {
+                var check = context.Users.FirstOrDefault(u => u.Email == data);
+                if (check != null)
+                {
+
+                    int OTP = new Random().Next(10000, 99999);
+                    string body = $@"Dear {check.Name},
+
+                                    Welcome to Urban Hub!
+
+                                    As requested, a temporary OTP has been generated for your account.
+
+                                    Temporary OTP: {OTP}
+
+                                    Thank you for choosing Urban Hub.
+
+                                    Best regards,
+                                    Urban Hub Team
+                                    support@urbanhub.com";
+
+                    var find = context.Registrations.FirstOrDefault( e => e.Email.ToLower() == data.ToLower());
+
+                    if (find == null)
+                    {
+                        context.Registrations.Add(new Registration()
+                        {
+                            Name = check.Name,
+                            Email = data,
+                            Rid = OTP
+                        });
+                    }
+                    else {
+                        find.Rid = OTP;
+                        context.Registrations.Update(find);
+                    }
+
+                    context.SaveChanges();
+                    await mail.SendEmail(data, "Temporary password for Urbanhub Account", body);
+                    result.Error = false;
+                    result.Message = "Email send With OTP";
+                }
+                else {
+
+                    result.Message = "No user Found";
+                    result.Error = true;
+
+                
+                }
+
+            }
+            catch (Exception e)
+            {
+                result.Data = data;
+                result.Error = true;
+                result.Message = e.ToString();
+                throw;
+            }
+            return result;
+        }
+    
     }
+
 
 }

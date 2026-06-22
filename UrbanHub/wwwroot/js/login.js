@@ -1,31 +1,86 @@
-﻿import { showNotification } from "/js/layout.js";
+ import { showNotification } from "/js/layout.js";
 
 let hovecard = document.getElementById("hovercard");
 let questiopn = document.getElementById("question");
 let togglebtn = document.getElementById("togglebtn");
 let loginform = document.getElementById("LoginForm");
 let loginBtn = document.getElementById("LoginBtn");
-
+const forgetpass = document.getElementById("forgetpass");
+const sendotp = document.getElementById("sendotp");
+let count = 0;
 let registrationform = document.getElementById("RegistrationForm");
-let RegBtn = document.getElementById("RegBtn");
+let RegBtn = document.getElementById("RegBtn"); 
+let PassReset = document.getElementById("passreset");
+const ForgetPassCard = document.getElementById("ForgetPassCard");
+const cancel = document.getElementById("cancel");
+const submit= document.getElementById("submit");
+
+
+cancel.addEventListener("click", () => ForgetPassCard.classList.add("d-none"));
+forgetpass.addEventListener("click", () => ForgetPassCard.classList.remove("d-none"));
+sendotp.addEventListener("click", async () => {
+    var email = document.getElementById("email").value;
+    var result = await fetch(`api/sendotp?email=${encodeURIComponent(email)}`);
+    var data = await result.json();
+    console.log(data);
+    if (data.errors != undefined) {
+        document.getElementById("emailotp").innerHTML = data.errors.Email.errors[0].errorMessage
+    }
+    if (data.error == false) {
+        PassReset.classList.remove("d-none");
+        sendotp.Disabled = true;
+        letscount(60);
+        setTimeout(() => {
+            sendotp.Disabled == false
+            sendotp.innerHTML = "Send OTP";
+        }, 60000);
+        
+    }
+    console.log("sdasdas");
+});
+
+function letscount(count) {
+    const tick = setInterval(() => {
+        count--;
+        sendotp.innerHTML = "Wait "+count+"s";
+        if (count < 1) {
+            clearInterval(tick);
+        }
+    }, 1000);
+
+}
+
 
 document
   .getElementById("togglebtn")
   .addEventListener("click", function (event) {
     console.log("Toggle");
+    const cardLogin = document.getElementById("card_login");
 
     if (hovecard.style.left === "50%") {
       hovecard.style.left = "0";
       hovecard.style.borderRadius = "25px 100px 0px 25px";
       questiopn.innerHTML = "Don't have an account?";
       togglebtn.innerHTML = "Sign Up";
+      if (cardLogin) cardLogin.classList.remove("register-active");
     } else {
       hovecard.style.left = "50%";
       hovecard.style.borderRadius = "100px 25px 25px 0px";
       questiopn.innerHTML = "Already have an account?";
       togglebtn.innerHTML = "Login";
+      if (cardLogin) cardLogin.classList.add("register-active");
     }
   });
+
+// Attach listeners to mobile toggle links
+document.querySelectorAll(".mobile-toggle-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const primaryToggle = document.getElementById("togglebtn");
+        if (primaryToggle) {
+            primaryToggle.click();
+        }
+    });
+});
 
 if (loginBtn) { loginBtn.addEventListener("click", function (event) {
   //console.log("Login");

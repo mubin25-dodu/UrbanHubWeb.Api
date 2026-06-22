@@ -1,0 +1,225 @@
+@media (max-width: 767.98px) {
+    /* Background enhancement for mobile */
+    body {
+        background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #e2e8f0 100%) !important;
+        min-height: 100vh;
+    }
+
+    .vh-100 {
+        height: auto !important;
+        min-height: 100vh;
+        padding: 2rem 1rem;
+        background: transparent !important;
+    }
+
+    /* Hide desktop hovercard */
+    #hovercard {
+        display: none !important;
+    }
+    
+    /* Make card_login single-column and styled for mobile */
+    #card_login {
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: 420px !important;
+        border-radius: 28px !important;
+        padding: 2.5rem 1.75rem !important;
+        margin: 1.5rem auto !important;
+        border: 1px solid rgba(226, 232, 240, 0.8) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08) !important;
+        min-height: auto !important;
+    }
+    
+    /* Form transitions and display rules */
+    #RegistrationForm, 
+    #registration {
+        width: 100% !important;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    #RegistrationForm {
+        display: none;
+    }
+    
+    #registration {
+        display: block;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .register-active #RegistrationForm {
+        display: block !important;
+        animation: slideInMobile 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    .register-active #registration {
+        display: none !important;
+    }
+    
+    #left_login {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    #LoginForm {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Brand Header Styling on Mobile */
+    .mobile-brand-header img {
+        transition: transform 0.3s ease;
+    }
+    .mobile-brand-header img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Premium Input Fields for Mobile */
+    .form-control {
+        background-color: #f8fafc !important;
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        padding: 0.75rem 1.1rem !important;
+        font-size: 0.95rem !important;
+        color: #1e293b !important;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .form-control:focus {
+        background-color: #ffffff !important;
+        border-color: #0F6DF0 !important;
+        box-shadow: 0 0 0 4px rgba(15, 109, 240, 0.15) !important;
+        color: #0f172a !important;
+    }
+
+    .form-label {
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
+        color: #64748b !important;
+        margin-bottom: 0.4rem !important;
+        margin-top: 0.9rem !important;
+        letter-spacing: 0.2px;
+    }
+
+    /* Input errors styling */
+    .text-danger.d-block {
+        font-size: 0.8rem !important;
+        margin-top: 0.3rem !important;
+        font-weight: 500 !important;
+    }
+
+    /* Premium buttons for mobile */
+    .btn-primary {
+        background: linear-gradient(135deg, #0F6DF0 0%, #0d5ecf 100%) !important;
+        border: none !important;
+        border-radius: 14px !important;
+        padding: 0.85rem 1.5rem !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.3px;
+        box-shadow: 0 4px 14px rgba(15, 109, 240, 0.25) !important;
+        transition: all 0.25s ease !important;
+    }
+
+    .btn-primary:hover, 
+    .btn-primary:active, 
+    .btn-primary:focus {
+        background: linear-gradient(135deg, #0d5ecf 0%, #0b51b3 100%) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 6px 18px rgba(15, 109, 240, 0.35) !important;
+    }
+
+    /* Checkbox & Forget password row styling */
+    .remember-forgot-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .remember-me-label {
+        font-size: 0.88rem;
+        color: #475569;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        cursor: pointer;
+    }
+
+    .remember-me-label input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        border: 1.5px solid #cbd5e1;
+        cursor: pointer;
+        accent-color: #0F6DF0;
+    }
+
+    #forgetpass {
+        color: #ef4444 !important;
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
+        transition: color 0.2s ease;
+    }
+    
+    #forgetpass:hover {
+        color: #dc2626 !important;
+        text-decoration: underline !important;
+    }
+
+    /* Inline mobile toggler link */
+    .mobile-toggle-btn {
+        transition: color 0.2s ease;
+    }
+    .mobile-toggle-btn:hover {
+        color: #0d5ecf !important;
+        text-decoration: underline !important;
+    }
+
+    /* Slide in animation */
+    @keyframes slideInMobile {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    #registration:not([style*="display: none"]) {
+        animation: slideInMobile 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Heading custom styles */
+    h2 {
+        font-size: 1.85rem !important;
+        font-weight: 800 !important;
+        color: #0f172a !important;
+        letter-spacing: -0.5px;
+        text-align: center;
+    }
+
+    h5.text-primary {
+        font-size: 0.95rem !important;
+        color: #64748b !important;
+        text-align: center;
+        margin-top: 0.25rem !important;
+        margin-bottom: 1.75rem !important;
+        font-weight: 400 !important;
+    }
+    
+    /* Forget password modal override for mobile */
+    #ForgetPassCard > div {
+        width: 90% !important;
+        max-width: 380px !important;
+        border-radius: 24px !important;
+        padding: 2rem 1.5rem !important;
+    }
+}

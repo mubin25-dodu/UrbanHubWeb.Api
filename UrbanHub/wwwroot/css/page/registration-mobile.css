@@ -1,0 +1,151 @@
+@media (max-width: 767.98px) {
+    body {
+        background: radial-gradient(circle at 50% 50%, #f8fafc 0%, #e2e8f0 100%) !important;
+        min-height: 100vh;
+    }
+
+    .vh-100 {
+        height: auto !important;
+        min-height: 100vh;
+        padding: 2rem 1rem !important;
+        margin: 0 !important;
+    }
+
+    /* Target the reg_card */
+    #reg_card {
+        padding: 2rem 1.25rem !important;
+        border-radius: 24px !important;
+        max-width: 440px !important;
+        width: 100% !important;
+        margin: 1rem auto !important;
+        background: rgba(255, 255, 255, 0.96) !important;
+        border: 1px solid rgba(226, 232, 240, 0.8) !important;
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08) !important;
+    }
+
+    /* Adjust page titles */
+    #reg_card h1 {
+        font-size: 1.65rem !important;
+        font-weight: 800 !important;
+        color: #0f172a !important;
+        text-align: center;
+        letter-spacing: -0.5px;
+    }
+
+    #reg_card h5 {
+        font-size: 0.95rem !important;
+        color: #64748b !important;
+        text-align: center;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* Container columns display vertical on mobile */
+    #reg_container {
+        flex-direction: column !important;
+        gap: 1.5rem !important;
+    }
+
+    #reg_container > div {
+        width: 100% !important;
+        margin-top: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Terms and conditions block custom adjustments */
+    #reg_container h3 {
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        color: #0f172a !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    #reg_container .border-bottom {
+        max-height: 150px !important; /* Smaller scroll height for terms on mobile */
+        padding: 0.75rem !important;
+        border-radius: 12px;
+        background-color: #f8fafc;
+        border: 1.5px solid #e2e8f0 !important;
+        font-size: 0.82rem !important;
+        color: #475569;
+    }
+
+    /* Input Form styling */
+    .form-group {
+        margin-bottom: 1rem !important;
+    }
+
+    .form-group label {
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
+        color: #64748b !important;
+        margin-bottom: 0.4rem !important;
+    }
+
+    .form-control {
+        background-color: #f8fafc !important;
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 0.95rem !important;
+        color: #1e293b !important;
+        transition: all 0.25s ease !important;
+    }
+
+    .form-control:focus {
+        background-color: #ffffff !important;
+        border-color: #0F6DF0 !important;
+        box-shadow: 0 0 0 4px rgba(15, 109, 240, 0.15) !important;
+    }
+
+    /* Terms checkbox styling */
+    .form-check {
+        padding-left: 1.75rem !important;
+        margin-top: 0.5rem;
+    }
+
+    .form-check-input {
+        width: 18px !important;
+        height: 18px !important;
+        margin-left: -1.75rem !important;
+        border-radius: 5px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        cursor: pointer;
+        accent-color: #0F6DF0;
+    }
+
+    .form-check-label {
+        font-size: 0.88rem !important;
+        color: #475569 !important;
+        font-weight: 500 !important;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    /* Premium submit button */
+    #submitbtn {
+        background: linear-gradient(135deg, #0F6DF0 0%, #0d5ecf 100%) !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 0.8rem 1.5rem !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        letter-spacing: 0.3px;
+        box-shadow: 0 4px 14px rgba(15, 109, 240, 0.25) !important;
+        transition: all 0.25s ease !important;
+        width: 100% !important; /* Full width on mobile */
+        margin-top: 1.5rem !important;
+    }
+
+    #submitbtn:not(:disabled):hover {
+        background: linear-gradient(135deg, #0d5ecf 0%, #0b51b3 100%) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 6px 18px rgba(15, 109, 240, 0.35) !important;
+    }
+
+    #submitbtn:disabled {
+        background: #cbd5e1 !important;
+        color: #94a3b8 !important;
+        box-shadow: none !important;
+        cursor: not-allowed;
+    }
+}

@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Login";
 	Layout = "_LayoutUrbanHub";
 }
@@ -8,18 +8,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
-  
+    <link rel="stylesheet" href="~/css/page/login-mobile.css" asp-append-version="true" />
 </head>
 
 <body>
 <div class="bg-white d-flex align-items-center justify-content-center w-100 vh-100 ">
     <!-- card -->
-    <div class="shadow flex-row d-flex align-items-center justify-content-evenly rounded-5 position-relative" id="card_login">
+    <div class="shadow d-flex flex-column flex-md-row align-items-center justify-content-evenly rounded-5 position-relative" id="card_login">
         <!-- left of the card -->
         <form id="RegistrationForm" method="post">
             <div class="m-5 p-5 flex-column gap-1" id="left_login"> 
+                <!-- Mobile Logo Header -->
+                <div class="text-center mb-4 d-md-none mobile-brand-header">
+                    <img src="~/assets/img/logo.png" alt="UrbanHub Logo" style="height: 52px; width: auto;" class="mb-2" />
+                    <h3 class="fw-bold text-dark mb-0">UrbanHub</h3>
+                </div>
+
                 <h2>Create Account</h2>
-                <p class="text-primary">We will send you a verification email</p>
+                <p class="text-primary text-center-mobile">We will send you a verification email</p>
                 <label for="fullname" class="form-label">Full Name</label>
                 <input name="name" type="text" class="form-control" id="fullname" placeholder="Enter full name">
                 <span id="SName" class="text-danger d-block"></span>
@@ -32,15 +38,26 @@
                         Submit
                     </button>
                 </div>
+
+                <!-- Mobile Toggle Link -->
+                <div class="text-center mt-4 d-md-none">
+                    <span class="text-muted small">Already have an account?</span>
+                    <a href="javascript:void(0)" class="mobile-toggle-btn fw-bold text-primary text-decoration-none ms-1 small">Sign In</a>
+                </div>
             </div>
         </form>
 
         <!-- right of the card -->
-       
         <div class="m-5 p-5 flex-column gap-1" id="registration"> 
+            <!-- Mobile Logo Header -->
+            <div class="text-center mb-4 d-md-none mobile-brand-header">
+                <img src="~/assets/img/logo.png" alt="UrbanHub Logo" style="height: 52px; width: auto;" class="mb-2" />
+                <h3 class="fw-bold text-dark mb-0">UrbanHub</h3>
+            </div>
+
             <h2>Welcome back</h2> 
             <form id="LoginForm" method="post">
-                <h5 class="text-primary">Enter your login details</h5>
+                <h5 class="text-primary text-center-mobile">Enter your login details</h5>
                 <label for="username" class="form-label">Email</label>
                 <input name="Email" type="text" class="form-control" id="username" placeholder="Enter email">
                 <span id="SpanEmail" class="text-danger d-block"></span>
@@ -48,15 +65,24 @@
                 <label for="password" class="form-label">Password</label>
                 <input name="Password" type="password" class="form-control" id="password" placeholder="Enter password">
                 <span id="SpanPass" class="text-danger d-block"></span>
-                <input type="checkbox" /> Remember me <br />
-                <a href="#" class="text-decoration-none text-danger">Forget password?</a>
+                
+                <div class="remember-forgot-row">
+                    <input type="checkbox" /> Remember me <br />
+                    <a id="forgetpass" class="text-decoration-none text-danger" style="cursor:pointer;">Forget password?</a>
+                </div>
+
                 <div class="d-grid gap-2 pt-3">
                     <button type="button" name="btn" id="LoginBtn" value="login" class="btn btn-primary">
                         Login
                     </button>
                 </div>
             </form>
-        
+            
+            <!-- Mobile Toggle Link -->
+            <div class="text-center mt-4 d-md-none">
+                <span class="text-muted small">Don't have an account?</span>
+                <a href="javascript:void(0)" class="mobile-toggle-btn fw-bold text-primary text-decoration-none ms-1 small">Sign Up</a>
+            </div>
 
             <!-- the hovering card -->
             <div class="position-absolute h-100 top-0 w-50 hovercard " id="hovercard"> 
@@ -64,11 +90,49 @@
                 <p class ="text-white text-center" id="question">Don't have an account?</p>
                 <button type="button" class="btn btn-light mx-auto d-block " id="togglebtn">Sign Up</button>
             </div>
-
         </div>
-            
+        
     </div>
+       
+    @* forget password *@
+        <div class="position-fixed z-3 w-100 h-100 d-flex justify-content-center align-items-center d-none"
+            id="ForgetPassCard" style="background:rgb(255,255,255);">
+            <div class=" bg-white p-5 rounded-4 d-flex flex-column gap-3 shadow-lg" 
+            style="height:fit-content ; width:max-content">
+                <div>
+                    <label class="form-label">Enter Your Email ID:</label>
+                    <div class="d-flex flex-row gap-2 align-items-center">
+                 
+                        <input class="form-control w-100" id="email" type="email" name="Email" />
+                        <button class="btn btn-primary text-nowrap" id="sendotp">Send OTP</button>
+                        <button id="cancel" class="btn btn-danger fa-solid fa-xmark d-flex align-items-center justify-content-center" style="aspect-ratio: 1/1; height: 38px; width: 38px;"></button>
+
+                    </div>
+                    <span id="emailotp" class="text-danger small d-block mt-1"></span>
+                </div>
+
+                <div id="passreset" class="d-none">
+                <div >
+                    <label>Enter The OTP</label> <br />
+                      <input class="form-control col-12" id="OTP" inputmode="numeric" pattern="[0-9]*" maxlength="6" name="OTP" />
+                </div>
+                <div class="d-flex flex-column">
+                <label>Enter New Password:</label>
+                <input class="form-control" type="password" name="Password"/>
+                <label>Confirm Password:</label>
+                <input type="password" name="ConfirmPassword" class="form-control" />
+                </div>
+                    <div class="d-flex justify-content-end mt-2">
+                        <button id="submit" class="btn btn-primary col-5">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
+   
+
+   
+
 <script type="module" src="~/js/login.js"></script>
 </body>
 </html>
