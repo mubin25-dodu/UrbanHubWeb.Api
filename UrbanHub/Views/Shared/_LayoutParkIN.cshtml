@@ -96,32 +96,70 @@
 									</li>
 								}
 							</ul>
-					<!-- Right side tools -->
-					<div class="d-flex align-items-center gap-3 ms-lg-4 mt-3 mt-lg-0 ps-lg-3 border-lg-start">
-						<!-- Notification Icon -->
-					<button id="notificationbtn" class="btn btn-link text-dark position-relative nav-icon-hover transition-base text-decoration-none icon-wrapper border-0 p-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-						<i class="fa-regular fa-bell fs-5"></i>
-						<span class="position-absolute top-1 start-100 translate-middle p-1 bg-danger border border-light rounded-circle notification-badge">
-							<span class="visually-hidden">New notifications</span>
-						</span>
-					</button>
-						@if (!User.Identity.IsAuthenticated)
-						{
-							<!-- Login Button -->
-							<a class="btn btn-auth btn-login fw-600 px-4 shadow-sm login-btn-hover transition-base ms-2"
-							   asp-action="login_reg" asp-controller="login_regisration">
-								<i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Login
-							</a>
-						}
-						else
-						{
-							<a class="btn btn-auth btn-logout fw-600 px-4 shadow-sm login-btn-hover transition-base ms-2"
-							   asp-action="logout" asp-controller="login_regisration"
-							   onclick="return confirm('Are you sure you want to Logout!')">
-								<i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout
-							</a>
-						}
+				<!-- Right side tools -->
+				<div class="d-flex align-items-center gap-2 gap-md-3 ms-lg-4 mt-3 mt-lg-0 ps-lg-3 border-lg-start">
+					<!-- Notification Icon -->
+				<button id="notificationbtn" class="btn btn-link text-dark position-relative nav-icon-hover transition-base text-decoration-none icon-wrapper border-0 p-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+					<i class="fa-regular fa-bell fs-5"></i>
+					<span class="position-absolute top-1 start-100 translate-middle p-1 bg-danger border border-light rounded-circle notification-badge">
+						<span class="visually-hidden">New notifications</span>
+					</span>
+				</button>
+
+					<!-- Quick Demo Login Dropdown -->
+					<div class="dropdown">
+						<button class="btn btn-outline-primary btn-sm dropdown-toggle fw-600 px-3 py-2 shadow-sm transition-base d-flex align-items-center gap-2" type="button" id="demoLoginDropdownParkIN" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="fa-solid fa-user-gear text-primary"></i> <span class="d-none d-sm-inline">Demo Login</span>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2 mt-2" aria-labelledby="demoLoginDropdownParkIN" style="min-width: 210px; border-radius: 12px; z-index: 1050;">
+							<li><h6 class="dropdown-header text-uppercase fw-bold text-muted small px-2 py-1" style="font-size: 0.7rem; letter-spacing: 0.5px;">Switch Role / Demo Account</h6></li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2" href="/demologin?role=admin">
+									<span class="badge bg-danger rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;"><i class="fa-solid fa-user-shield fs-6"></i></span>
+									<div>
+										<div class="fw-semibold text-dark small">Admin</div>
+										<span class="text-muted d-block" style="font-size: 0.7rem;">System Administrator</span>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2" href="/demologin?role=owner">
+									<span class="badge bg-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;"><i class="fa-solid fa-building-user fs-6"></i></span>
+									<div>
+										<div class="fw-semibold text-dark small">Owner</div>
+										<span class="text-muted d-block" style="font-size: 0.7rem;">Space Provider</span>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2" href="/demologin?role=customer">
+									<span class="badge bg-success rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;"><i class="fa-solid fa-user fs-6"></i></span>
+									<div>
+										<div class="fw-semibold text-dark small">Customer</div>
+										<span class="text-muted d-block" style="font-size: 0.7rem;">Regular User</span>
+									</div>
+								</a>
+							</li>
+						</ul>
 					</div>
+
+					@if (!User.Identity.IsAuthenticated)
+					{
+						<!-- Login Button -->
+						<a class="btn btn-auth btn-login fw-600 px-4 shadow-sm login-btn-hover transition-base"
+						   asp-action="login_reg" asp-controller="login_regisration">
+							<i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Login
+						</a>
+					}
+					else
+					{
+						<a class="btn btn-auth btn-logout fw-600 px-4 shadow-sm login-btn-hover transition-base"
+						   asp-action="logout" asp-controller="login_regisration"
+						   onclick="return confirm('Are you sure you want to Logout!')">
+							<i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout
+						</a>
+					}
+				</div>
 				</div>
 			</div>
 		</nav>

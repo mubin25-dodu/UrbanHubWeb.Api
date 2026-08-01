@@ -1,4 +1,4 @@
-﻿using System.Runtime.Intrinsics.Arm;
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -38,6 +38,57 @@ public class login_regisration(Auth repo, UrbanHubDbContext context) : Controlle
     public IActionResult logout()
     {
         HttpContext.SignOutAsync("UrbanAuth");
+        return RedirectToAction("login_reg");
+    }
+
+    [HttpGet]
+    [Route("demologin")]
+    [AllowAnonymous]
+    public async Task<IActionResult> demologin(string role = "user")
+    {
+        var data = new LoginDTO();
+
+        if (string.Equals(role, "admin", StringComparison.OrdinalIgnoreCase))
+        {
+            // Demo Admin Credentials - update values as needed to match database record
+            data.Email = "admin@urbanhub.com";
+            data.Password = "Admin@123";
+        }
+        else if (string.Equals(role, "owner", StringComparison.OrdinalIgnoreCase))
+        {
+            // Demo Owner Credentials - update values as needed to match database record
+            data.Email = "owner@urbanhub.com";
+            data.Password = "Owner@123";
+        }
+        else
+        {
+            // Demo Customer/User Credentials - update values as needed to match database record
+            data.Email = "user@urbanhub.com";
+            data.Password = "User@123";
+        }
+
+        var userExist = repo.IsUser(data);
+        if (!userExist.Error && userExist.Data != null)
+        {
+            var Claim = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, userExist.Data.Name),
+                new Claim(ClaimTypes.Email, userExist.Data.Email),
+                new Claim(ClaimTypes.Role, userExist.Data.Role),
+                new Claim("UserID", userExist.Data.Uid.ToString()),
+            };
+            var identity = new ClaimsIdentity(Claim, "UrbanAuth");
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync("UrbanAuth", principal);
+
+            if (string.Equals(userExist.Data.Role, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return RedirectToAction("Home", "Admin");
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        TempData["ErrorMessage"] = $"Demo user login failed for role '{role}': {userExist.Message}";
         return RedirectToAction("login_reg");
     }
 
@@ -155,6 +206,23 @@ public class login_regisration(Auth repo, UrbanHubDbContext context) : Controlle
         if (result.Error)
         {
             return Ok( new { HasError = true , erors=result.Message});
+        }
+        return Ok(result);
+    }
+
+    [HttpGet("api/Resetpass")]
+    public async Task<IActionResult> Resetpass(LoginDTO data , int OTP)
+    {
+        ModelState.Remove("Email");
+        if (!ModelState.IsValid)
+        {
+            return Ok(new { HasError = true, errors = ModelState });
+        }
+        var result = await repo.Resetpass( data , OTP);
+
+        if (result.Error)
+        {
+            return Ok(new { HasError = true, erors = result.Message });
         }
         return Ok(result);
     }

@@ -10,7 +10,7 @@ namespace UrbanHub.web.Controllers
     {
         public IActionResult MyBookings()
         {
-            var result = repo.GetAll();
+            var result = repo.GetAll(); 
             return View(result.Data);
         }
         [HttpGet]

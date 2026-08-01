@@ -223,8 +223,8 @@ namespace UrbanHubManagement.repo
             var result = new Result<string>();
             try
             {
-                var check = context.Users.FirstOrDefault(u => u.Email == data);
-                if (check != null)
+                var check = await context.Users.FirstOrDefaultAsync(u => u.Email == data);
+                if (check != null )
                 {
 
                     int OTP = new Random().Next(10000, 99999);
@@ -242,7 +242,7 @@ namespace UrbanHubManagement.repo
                                     Urban Hub Team
                                     support@urbanhub.com";
 
-                    var find = context.Registrations.FirstOrDefault( e => e.Email.ToLower() == data.ToLower());
+                    var find = await context.Registrations.FirstOrDefaultAsync( e => e.Email.ToLower() == data.ToLower());
 
                     if (find == null)
                     {
@@ -259,7 +259,7 @@ namespace UrbanHubManagement.repo
                     }
 
                     context.SaveChanges();
-                    await mail.SendEmail(data, "Temporary password for Urbanhub Account", body);
+                    mail.SendEmail(data, "Temporary password for Urbanhub Account", body);
                     result.Error = false;
                     result.Message = "Email send With OTP";
                 }
@@ -282,6 +282,62 @@ namespace UrbanHubManagement.repo
             return result;
         }
     
+
+    public async Task<Result<LoginDTO>> Resetpass(LoginDTO data , int OTP)
+        {
+
+            var result = new Result<LoginDTO>();
+            try
+            {
+                var check = await context.Users.FirstOrDefaultAsync(u => u.Email == data.Email);
+                if (check != null)
+                {
+
+                    string body = $@"Dear {check.Name},
+
+                                    <br> Your Password Has Been Reset <br> 
+
+                                    Best regards,
+                                    Urban Hub Team
+                                    support@urbanhub.com";
+
+                    var find = await context.Registrations.FirstOrDefaultAsync(e => e.Email.ToLower() == data.Email.ToLower());
+
+                    if (find?.Rid != OTP) {
+                        result.Message = "Wrong OTP";
+                        result.Error = true;
+                        return result;
+                    }
+                    
+                    context.Registrations.Remove(find);
+                    check.Password = hash.Hash(data.Password);
+                    context.Users.Update(check);
+                  
+                    context.SaveChanges();
+                    mail.SendEmail(data.Email, "Temporary password for Urbanhub Account", body);
+                    result.Error = false;
+                    result.Message = "Email send With OTP";
+                }
+                else
+                {
+
+                    result.Message = "No user Found";
+                    result.Error = true;
+                    return result;
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                result.Data = data;
+                result.Error = true;
+                result.Message = e.ToString();
+                throw;
+            }
+            return result;
+        }
+
     }
 
 

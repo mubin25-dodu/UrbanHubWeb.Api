@@ -7,13 +7,19 @@ let loginform = document.getElementById("LoginForm");
 let loginBtn = document.getElementById("LoginBtn");
 const forgetpass = document.getElementById("forgetpass");
 const sendotp = document.getElementById("sendotp");
+const OTP = document.getElementById("OTP");
+const SubmitErrors = document.getElementById("SubmitErrors");
+
 let count = 0;
 let registrationform = document.getElementById("RegistrationForm");
 let RegBtn = document.getElementById("RegBtn"); 
 let PassReset = document.getElementById("passreset");
 const ForgetPassCard = document.getElementById("ForgetPassCard");
 const cancel = document.getElementById("cancel");
-const submit= document.getElementById("submit");
+const submit = document.getElementById("submit");
+const pass = document.getElementById("pass");
+const confirmpass = document.getElementById("confirmpass");
+
 
 
 cancel.addEventListener("click", () => ForgetPassCard.classList.add("d-none"));
@@ -22,16 +28,16 @@ sendotp.addEventListener("click", async () => {
     var email = document.getElementById("email").value;
     var result = await fetch(`api/sendotp?email=${encodeURIComponent(email)}`);
     var data = await result.json();
-    console.log(data);
-    if (data.errors != undefined) {
-        document.getElementById("emailotp").innerHTML = data.errors.Email.errors[0].errorMessage
+    // console.log(data);
+    if (data && data.errors && data.errors.Email) {
+        document.getElementById("emailotp").innerHTML = data.errors.Email.errors[0].errorMessage;
     }
     if (data.error == false) {
         PassReset.classList.remove("d-none");
-        sendotp.Disabled = true;
+        sendotp.disabled = true;
         letscount(60);
         setTimeout(() => {
-            sendotp.Disabled == false
+            sendotp.disabled = false
             sendotp.innerHTML = "Send OTP";
         }, 60000);
         
@@ -39,6 +45,26 @@ sendotp.addEventListener("click", async () => {
     console.log("sdasdas");
 });
 
+submit.addEventListener("click", async () => {
+
+    SubmitErrors.innerHTML = "";
+
+    if (OTP.value === "") {
+        SubmitErrors.innerHTML = "Enter a Valid OTP";
+    }
+    else if (Number.isNaN(Number(OTP.value))) {
+        SubmitErrors.innerHTML = "Enter a Valid OTP";
+    }
+    else if (confirmpass.value !== pass.value) {
+        SubmitErrors.innerHTML = "Password and Confirm Password Doesn't match";
+    }
+    else {
+        SubmitErrors.innerHTML = "";
+        var result = await fetch(`api/Resetpass?Email=${encodeURIComponent(email)}&&Password=${encodeURIComponent(pass.value)}&&OTP=${encodeURIComponent(OTP)}`);
+        var data = await result.json();
+    }
+    
+});
 function letscount(count) {
     const tick = setInterval(() => {
         count--;
