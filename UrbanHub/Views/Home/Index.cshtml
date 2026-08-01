@@ -7,50 +7,57 @@
 <div class="alert alert-dismissible alert-success" style="top:-30px;">
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     <strong> <h1 class="display-4 fw-medium">Welcome to UrbanHub</h1></strong> <p class="lead fw-normal">Your one-stop destination for all things urban living.</p>
+</div>
 
-<!-- HR & Technical Overview Accordion / Dropdown Section -->
-<div class="my-4">
+<!-- Project Overview Accordion / Dropdown Section -->
+<div class="mb-4">
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="card-header bg-white border-0 p-3 p-md-4 d-flex justify-content-between align-items-center cursor-pointer" 
-             style="background: linear-gradient(135deg, #f8f9fa 0%, #eef2f7 100%); cursor: pointer;" 
-             data-bs-toggle="collapse" data-bs-target="#projectInfoCollapse" aria-expanded="true" aria-controls="projectInfoCollapse">
+        <div class="card-header bg-white border-0 p-3 p-md-4 d-flex justify-content-between align-items-center"
+             style="background: linear-gradient(135deg, #f8f9fa 0%, #eef2f7 100%); cursor: pointer;"
+             data-bs-toggle="collapse" data-bs-target="#projectInfoCollapse" aria-expanded="false" aria-controls="projectInfoCollapse">
             <div class="d-flex align-items-center gap-3">
                 <div class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary fs-4 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
                     <i class="fa-solid fa-layer-group"></i>
                 </div>
                 <div>
-                    <h5 class="fw-bold text-dark mb-0">Project Purpose & Architecture Summary</h5>
-                    <small class="text-muted">Click to view project details, module vision, and stack specs</small>
+                    <h5 class="fw-bold text-dark mb-0">Project Purpose & Architecture</h5>
+                    <small class="text-muted">Click to expand — project overview, ParkIN module details & tech stack</small>
                 </div>
             </div>
             <button class="btn btn-outline-primary btn-sm rounded-pill px-3 shadow-none fw-semibold" type="button">
-                <i class="fa-solid fa-chevron-down me-1"></i> Overview
+                <i class="fa-solid fa-chevron-down me-1"></i> Details
             </button>
         </div>
-        <div class="collapse show" id="projectInfoCollapse">
+        <div class="collapse" id="projectInfoCollapse">
             <div class="card-body p-4 bg-white border-top">
-                <div class="row g-4">
+
+                <!-- Row 1: Purpose + Architecture -->
+                <div class="row g-4 mb-4">
                     <!-- Project Purpose -->
-                    <div class="col-lg-6 border-end-lg">
+                    <div class="col-lg-6">
                         <div class="d-flex align-items-center gap-2 mb-3">
                             <span class="badge bg-primary bg-opacity-10 text-primary fw-bold px-2 py-1"><i class="fa-solid fa-bullseye me-1"></i> Project Purpose & Vision</span>
                         </div>
-                        <h6 class="fw-bold text-dark mb-2">UrbanHub Ecosystem</h6>
-                        <p class="text-secondary small leading-relaxed mb-3">
-                            UrbanHub is an all-in-one smart city management ecosystem designed to simplify urban living by unifying multiple services into a single platform.
+                        <h6 class="fw-bold text-dark mb-2">UrbanHub — Smart City Ecosystem</h6>
+                        <p class="text-secondary small mb-3">
+                            UrbanHub is an all-in-one smart city management platform that unifies multiple urban services under one roof. It's built to simplify everyday city life — from finding parking to ordering food to renting short-term living spaces.
                         </p>
                         <div class="d-flex flex-column gap-2 small">
                             <div class="d-flex align-items-start gap-2">
                                 <i class="fa-solid fa-circle-check text-success mt-1"></i>
-                                <span><strong>ParkIN Module:</strong> Real-time parking space finder, slot booking, live map tracking, host space management, and integrated digital wallet.</span>
+                                <span><strong>ParkIN (Active):</strong> Smart parking — find, book, manage spaces in real time with wallet & live map.</span>
                             </div>
                             <div class="d-flex align-items-start gap-2">
-                                <i class="fa-solid fa-clock text-primary mt-1"></i>
-                                <span><strong>Future Hubs:</strong> Designed ready to integrate <strong>FoodHub</strong> (food delivery) and <strong>StayHub</strong> (short-term rentals).</span>
+                                <i class="fa-solid fa-clock text-warning mt-1"></i>
+                                <span><strong>FoodHub (Planned):</strong> Food ordering & delivery from nearby restaurants.</span>
+                            </div>
+                            <div class="d-flex align-items-start gap-2">
+                                <i class="fa-solid fa-clock text-warning mt-1"></i>
+                                <span><strong>StayHub (Planned):</strong> Short-term rental listings and booking.</span>
                             </div>
                             <div class="d-flex align-items-start gap-2">
                                 <i class="fa-solid fa-user-gear text-info mt-1"></i>
-                                <span><strong>Role Access Control:</strong> Seamless experience for Customers, Parking Space Owners, and System Administrators.</span>
+                                <span><strong>3 User Roles:</strong> Customer (book spaces), Owner (list & manage spaces), Admin (system dashboard).</span>
                             </div>
                         </div>
                     </div>
@@ -60,32 +67,104 @@
                         <div class="d-flex align-items-center gap-2 mb-3">
                             <span class="badge bg-success bg-opacity-10 text-success fw-bold px-2 py-1"><i class="fa-solid fa-diagram-project me-1"></i> Technical Architecture</span>
                         </div>
-                        <h6 class="fw-bold text-dark mb-2">System Stack & Design Pattern</h6>
+                        <h6 class="fw-bold text-dark mb-2">System Stack & Design</h6>
                         <ul class="list-unstyled small text-secondary mb-0 d-flex flex-column gap-2">
                             <li class="d-flex align-items-center gap-2">
                                 <span class="badge bg-dark rounded-pill px-2" style="min-width:75px;">Frontend</span>
-                                <span>ASP.NET Core 8 MVC, Razor Views, Bootstrap 5, FontAwesome & Custom JS</span>
+                                <span>ASP.NET Core 8 MVC · Razor Views · Bootstrap 5 · FontAwesome · Custom JS</span>
                             </li>
                             <li class="d-flex align-items-center gap-2">
                                 <span class="badge bg-dark rounded-pill px-2" style="min-width:75px;">Backend</span>
-                                <span>N-Tier Architecture (Controllers, Repository Pattern, DTO Data Contracts)</span>
+                                <span>N-Tier Architecture · Controllers → Repository Pattern → DTO Contracts</span>
                             </li>
                             <li class="d-flex align-items-center gap-2">
                                 <span class="badge bg-dark rounded-pill px-2" style="min-width:75px;">Database</span>
-                                <span>Entity Framework Core with SQL Server & Code-First Migrations</span>
+                                <span>Entity Framework Core · SQL Server · Code-First Migrations</span>
                             </li>
                             <li class="d-flex align-items-center gap-2">
-                                <span class="badge bg-dark rounded-pill px-2" style="min-width:75px;">Security</span>
-                                <span>Claims-Based Cookie Auth (`UrbanAuth`), Password Hashing & Role Authorization</span>
+                                <span class="badge bg-dark rounded-pill px-2" style="min-width:75px;">Auth</span>
+                                <span>Claims-Based Cookie Auth (UrbanAuth) · Password Hashing · Role Authorization</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2">
+                                <span class="badge bg-dark rounded-pill px-2" style="min-width:75px;">Services</span>
+                                <span>Email/OTP via SendMail · Real-Time Notifications · SignalR Integration</span>
                             </li>
                         </ul>
                     </div>
                 </div>
+
+                <hr class="my-3" />
+
+                <!-- Row 2: ParkIN Module Deep Dive -->
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="badge bg-info bg-opacity-10 text-info fw-bold px-2 py-1"><i class="fa-solid fa-square-parking me-1"></i> ParkIN Module — Detailed Breakdown</span>
+                    </div>
+                    <p class="text-secondary small mb-3">
+                        ParkIN is the fully functional smart parking module. It enables <strong>Customers</strong> to search, browse, and book available parking spaces in real time, while <strong>Owners</strong> can list their spaces, set pricing, and manage incoming bookings. The <strong>Admin</strong> panel provides full oversight with dashboards, user management, transaction logs, and system activity tracking.
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="fa-solid fa-magnifying-glass text-primary"></i>
+                                    <strong class="small">Browse & Search</strong>
+                                </div>
+                                <p class="text-muted mb-0" style="font-size: 0.78rem;">Customers browse available spaces filtered by location, price, and availability. Each space shows details, images, capacity, and hourly rates.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="fa-solid fa-calendar-check text-success"></i>
+                                    <strong class="small">Booking System</strong>
+                                </div>
+                                <p class="text-muted mb-0" style="font-size: 0.78rem;">Users select date/time slots and book spaces. Bookings track status (Active, Completed, Cancelled) with payment integration through the digital wallet.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="fa-solid fa-house-user text-info"></i>
+                                    <strong class="small">My Space (Owner)</strong>
+                                </div>
+                                <p class="text-muted mb-0" style="font-size: 0.78rem;">Owners register and manage their parking spaces — set pricing, upload images, define capacity, toggle availability, and view earnings.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="fa-solid fa-list-check text-warning"></i>
+                                    <strong class="small">Manage Bookings (Owner)</strong>
+                                </div>
+                                <p class="text-muted mb-0" style="font-size: 0.78rem;">Owners see all incoming bookings on their spaces, approve/reject requests, and track occupancy with real-time status updates.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="fa-solid fa-wallet text-success"></i>
+                                    <strong class="small">Digital Wallet</strong>
+                                </div>
+                                <p class="text-muted mb-0" style="font-size: 0.78rem;">Built-in wallet for payments. Users pay for bookings from wallet balance. Owners receive earnings and can request withdrawals.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="border rounded-3 p-3 h-100 bg-light">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="fa-solid fa-map-location-dot text-danger"></i>
+                                    <strong class="small">Live Map & Notifications</strong>
+                                </div>
+                                <p class="text-muted mb-0" style="font-size: 0.78rem;">Interactive map view showing parking spaces geographically. Real-time notifications via SignalR keep users updated on booking changes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
-
 
 <div class=" mt-4 d-flex flex-wrap">
     <div class="primarybg shadow rounded-4 d-flex flex-column p-4 text-white cardshover flex-grow-1" style="max-width:700px">
