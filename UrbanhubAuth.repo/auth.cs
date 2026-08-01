@@ -30,20 +30,20 @@ namespace UrbanHubManagement.repo
                     result.Message = "No User Found";
                     result.Error = true;
                 }
-                else if (check != null && check.Email!=data.Email)
+                else if (!string.Equals(check.Email, data.Email, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Data = null;
                     result.Message = "Wrong email Try again";
                     result.Error = true;
                 }
-                
-                else if (check != null && !hash.MatchHash(check.Password , data.Password))
+                else if (!hash.MatchHash(check.Password, data.Password))
                 {
                     result.Data = null;
                     result.Message = "Wrong password Try again";
                     result.Error = true;
                 }
-                else if(check.Status.ToLower() =="banned"){
+                else if (string.Equals(check.Status ?? string.Empty, "banned", StringComparison.OrdinalIgnoreCase))
+                {
                     result.Data = null;
                     result.Message = "The User Is Banned";
                     result.Error = true;
