@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetTopologySuite.Geometries;
 using UrbanHub.Data;
@@ -78,7 +78,10 @@ namespace UrbanHub.web.Controllers
                 return NotFound();
             }
 
-            roleUser.Role = "Owner";
+            if (!string.Equals(roleUser.Role, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                roleUser.Role = "Owner";
+            }
 
             _context.ParkingSpaces.Add(parking);
 

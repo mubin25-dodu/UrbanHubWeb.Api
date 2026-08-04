@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -33,7 +33,7 @@ namespace UrbanHubManagement.repo
                           * bookings.PaymentAmount;
                 var newdata = new ParkingDetailsModel()
                 {
-                    ParkingSpaces = mapper.Map<ParkingSpaceDTO>(bookings),
+                    ParkingSpaces = mapper.Map<ParkingSpaceDTO>(bookings.Parking),
                     ParkingBooking = bookings,
                     Platformfee = fee,
                     TotalBill = (fee + bookings.PaymentAmount)

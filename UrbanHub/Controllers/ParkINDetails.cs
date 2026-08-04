@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Construction;
 using UrbanHub.DTO;
@@ -39,7 +39,7 @@ namespace UrbanHub.web.Controllers
             }
             var result = await repo.RequestBooking(data.ParkingBookingDTO);
 
-            if (!result.Error)
+            if (result.Error)
             {
                 TempData["Error"] = true;
                 TempData["Message"] = result.Message;

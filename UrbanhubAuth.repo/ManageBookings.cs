@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -99,7 +99,7 @@ namespace UrbanHubManagement.repo
             var result = new Result<ParkingBooking>();
             try
             {
-                var spaces = context.ParkingBookings.Find(id);
+                var spaces = context.ParkingBookings.Include(p => p.Parking).FirstOrDefault(a => a.ID == id);
                 if (spaces == null)
                 {
                     result.Data = null;
