@@ -21,24 +21,30 @@ namespace UrbanHub.shared
 
         public bool MatchHash(string pass , string match)
         {
+            if (string.IsNullOrWhiteSpace(pass) || string.IsNullOrWhiteSpace(match))
+            {
+                return false;
+            }
 
             var passwordhasher = new PasswordHasher<User>();
 
             User user = new User();
 
-            var result = passwordhasher.VerifyHashedPassword(
-                user,
-                pass,
-                match
-                );
+            try
+            {
+                var result = passwordhasher.VerifyHashedPassword(
+                    user,
+                    pass,
+                    match
+                    );
 
+                return result == PasswordVerificationResult.Success;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
 
-            if (result == PasswordVerificationResult.Success)
-            { 
-            return true;
-            }    
-
-            return false;
 
         }
 

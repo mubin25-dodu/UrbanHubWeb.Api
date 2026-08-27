@@ -58,10 +58,11 @@ namespace UrbanHubManagement.repo
             catch (Exception e)
             {
                 result.Data = null;
-                result.Message = e.ToString();
+                result.Message = e.Message;
                 result.Error = true;
-                throw;
+                return result;
             }
+
             return result;
         }
 

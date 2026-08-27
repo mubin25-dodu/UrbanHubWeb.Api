@@ -1,4 +1,4 @@
-using System.Runtime.Intrinsics.Arm;
+﻿using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -51,20 +51,20 @@ public class login_regisration(Auth repo, UrbanHubDbContext context) : Controlle
         if (string.Equals(role, "admin", StringComparison.OrdinalIgnoreCase))
         {
             // Demo Admin Credentials - update values as needed to match database record
-            data.Email = "admin@urbanhub.com";
-            data.Password = "Admin@123";
+            data.Email = "urbanhub@gmail.com";
+            data.Password = "Mubin@11";
         }
         else if (string.Equals(role, "owner", StringComparison.OrdinalIgnoreCase))
         {
             // Demo Owner Credentials - update values as needed to match database record
-            data.Email = "owner@urbanhub.com";
-            data.Password = "Owner@123";
+            data.Email = "mubin9516@gmail.com";
+            data.Password = "Mubin@11";
         }
         else
         {
             // Demo Customer/User Credentials - update values as needed to match database record
-            data.Email = "user@urbanhub.com";
-            data.Password = "User@123";
+            data.Email = "amimubin9@gmail.com";
+            data.Password = "Mubin@11";
         }
 
         var userExist = repo.IsUser(data);
